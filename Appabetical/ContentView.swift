@@ -12,8 +12,24 @@ let fm = FileManager.default
 let plistUrl = URL(fileURLWithPath: "/var/mobile/Library/SpringBoard/IconState.plist")
 let plistUrlBkp = URL(fileURLWithPath: "/var/mobile/Library/SpringBoard/IconState.plist.bkp")
 let plistUrlNew = URL(fileURLWithPath: "/var/mobile/Library/SpringBoard/IconState.plist.new")
-let savedLayourUrl = URL(fileURLWithPath: "/var/mobile/Library/SpringBoard/IconState.plist.saved")
+let savedLayoutUrl = URL(fileURLWithPath: "/var/mobile/Library/SpringBoard/IconState.plist.saved")
 let version = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String
+
+extension UIImage {
+    var averageColor: UIColor? {
+        guard let inputImage = CIImage(image: self) else { return nil }
+        let extentVector = CIVector(x: inputImage.extent.origin.x, y: inputImage.extent.origin.y, z: inputImage.extent.size.width, w: inputImage.extent.size.height)
+
+        guard let filter = CIFilter(name: "CIAreaAverage", parameters: [kCIInputImageKey: inputImage, kCIInputExtentKey: extentVector]) else { return nil }
+        guard let outputImage = filter.outputImage else { return nil }
+
+        var bitmap = [UInt8](repeating: 0, count: 4)
+        let context = CIContext(options: [.workingColorSpace: kCFNull])
+        context.render(outputImage, toBitmap: &bitmap, rowBytes: 4, bounds: CGRect(x: 0, y: 0, width: 1, height: 1), format: .RGBA8, colorSpace: nil)
+
+        return UIColor(red: CGFloat(bitmap[0]) / 255, green: CGFloat(bitmap[1]) / 255, blue: CGFloat(bitmap[2]) / 255, alpha: CGFloat(bitmap[3]) / 255)
+    }
+}
 
 // Check if all selected pages are neighbouring
 func areNeighbouring(pages: Array<Int>) -> Bool {
@@ -41,47 +57,74 @@ struct ContentView: View {
         }
     }
     
+    // Open updates page
+    func openGithub() {
+        if let url = URL(string: "https://github.com/nutmeg-5000/Appabetical/releases") {
+            UIApplication.shared.open(url)
+        }
+    }
+    
+    func getTimeSaved(url: URL) -> String {
+        if fm.fileExists(atPath: url.path) {
+            do {
+                let attributes = try fm.attributesOfItem(atPath: url.path)
+                if let modificationDate = attributes[FileAttributeKey.modificationDate] as? Date {
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
+                    let modificationDateString = dateFormatter.string(from: modificationDate)
+                    return modificationDateString
+                }
+            } catch {
+                errorMsg = error.localizedDescription
+            }
+        }
+        return "(unknown)"
+    }
+    
     // Save a homescreen backup manually
     func saveLayout() {
         do {
-            if fm.fileExists(atPath: savedLayourUrl.path) {
-                try fm.removeItem(at: savedLayourUrl)
+            if fm.fileExists(atPath: savedLayoutUrl.path) {
+                try fm.removeItem(at: savedLayoutUrl)
             }
-            try fm.copyItem(at: plistUrl, to: savedLayourUrl)
+            try fm.copyItem(at: plistUrl, to: savedLayoutUrl)
+            UIApplication.shared.alert(title: "Layout Saved", body: "Layout has been saved successfully.")
         } catch {
             errorMsg = error.localizedDescription
             return
         }
-        
-        layoutSavedSuccessfully = true
     }
     
     // Restore the manual homescreen backup
     func restoreLayout() {
-        do {
-            try fm.replaceItemAt(plistUrl, withItemAt: savedLayourUrl)
-            try fm.copyItem(at: plistUrl, to: savedLayourUrl)
-            if fm.fileExists(atPath: plistUrlBkp.path) {
-                try fm.removeItem(at: plistUrlBkp)
+        UIApplication.shared.confirmAlert(title: "Confirm Restore", body: "This layout was saved on \(getTimeSaved(url: savedLayoutUrl)). Be mindful if you've added any apps, widgets or folders since then as they may appear incorrectly. Would you like to continue?", onOK: {
+            do {
+                try fm.replaceItemAt(plistUrl, withItemAt: savedLayoutUrl)
+                try fm.copyItem(at: plistUrl, to: savedLayoutUrl)
+                if fm.fileExists(atPath: plistUrlBkp.path) {
+                    try fm.removeItem(at: plistUrlBkp)
+                }
+            } catch {
+                errorMsg = error.localizedDescription
+                return
             }
-        } catch {
-            errorMsg = error.localizedDescription
-            return
-        }
 
-        respring()
+            respring()
+        }, noCancel: false)
     }
     
     // Restore the latest backup
     func restoreBackup() {
-        do {
-            try fm.replaceItemAt(plistUrl, withItemAt: plistUrlBkp)
-        } catch {
-            errorMsg = error.localizedDescription
-            return
-        }
+        UIApplication.shared.confirmAlert(title: "Confirm Undo", body: "This layout was saved on \(getTimeSaved(url: plistUrlBkp)). Be mindful if you've added any apps, widgets or folders since then as they may appear incorrectly. Would you like to continue?", onOK: {
+            do {
+                try fm.replaceItemAt(plistUrl, withItemAt: plistUrlBkp)
+            } catch {
+                errorMsg = error.localizedDescription
+                return
+            }
 
-        respring()
+            respring()
+        }, noCancel: false)
     }
     
     // Get the number of pages on the user's home screen TODO check when sorting too
@@ -180,7 +223,6 @@ struct ContentView: View {
     @State private var sortOp = SortOptions.alpha
     @State private var yesRespring = true
     @State private var errorMsg = ""
-    @State private var layoutSavedSuccessfully = false
     
     var body: some View {
         NavigationView {
@@ -195,59 +237,54 @@ struct ContentView: View {
                             Text(selectedItems.map { String($0) }.joined(separator: ", ")).foregroundColor(.secondary)
                         }
                     })
-                }
-                Section (footer: Text("Choose how folders on the homescreen should be sorted relative to other apps.")) {
-                    Picker("Ordering Options", selection: $sortOp) {
-                        Text("Sort A-Z").tag(SortOptions.alpha)
-                        Text("Sort by hue").tag(SortOptions.colour)
+                    Picker("Ordering", selection: $sortOp) {
+                        Text("A-Z").tag(SortOptions.alpha)
+                        Text("Colour").tag(SortOptions.colour)
                     }
-                    Picker("Page Options", selection: $pageOp) {
-                        Text("Sort independently").tag(PageOptions.individually)
+                    Picker("Pages", selection: $pageOp) {
+                        Text("Sort pages independently").tag(PageOptions.individually)
                         if areNeighbouring(pages: selectedItems) {
-                            Text("Sort across pages").tag(PageOptions.acrossPages)
+                            Text("Sort apps across pages").tag(PageOptions.acrossPages)
                         }
                     }
-                    Picker("Folder Options", selection: $folderOp) {
+                    Picker("Folders", selection: $folderOp) {
                         Text("Retain current order").tag(FolderOptions.noSort)
-                        Text("Sort in with apps").tag(FolderOptions.alongside)
-                        Text("Sort separately").tag(FolderOptions.separately)
+                        Text("Sort along with apps").tag(FolderOptions.alongside)
+                        Text("Sort separate from apps").tag(FolderOptions.separately)
                     }
-                }
-                Section {
                     Button("Sort Apps") {
                         sortPage()
                     }.disabled(selectedItems.isEmpty)
-                    Toggle(isOn: $yesRespring) {
-                        Text("Respring Afterwards")
-                    }
+//                    Toggle(isOn: $yesRespring) {
+//                        Text("Respring Afterwards")
+//                    }
                     if !errorMsg.isEmpty {
                         Text("Error: \(errorMsg)").foregroundColor(.red)
                     }
                 }
-                Section (footer: Text("Back up the current homescreen layout - note that any previous backup will be overwritten.")) {
-                    if fm.fileExists(atPath: savedLayourUrl.path) {
+                Section (footer: fm.fileExists(atPath: savedLayoutUrl.path) ? Text("The previously saved layout will be overwritten.") : Text("It is recommended you save your current layout before experimenting.")) {
+                    if fm.fileExists(atPath: plistUrlBkp.path) {
+                        Button("Undo Last Sort") {
+                            restoreBackup()
+                        }.foregroundColor(.red)
+                    }
+                    if fm.fileExists(atPath: savedLayoutUrl.path) {
                         Button("Restore Saved Layout") {
                             restoreLayout()
-                        }
+                        }.foregroundColor(.red)
                     }
                     Button("Back Up Current Layout") {
                         saveLayout()
                     }
-                    if layoutSavedSuccessfully {
-                        Text("Layout saved!").foregroundColor(.secondary)
-                    }
                 }
                 if fm.fileExists(atPath: plistUrlBkp.path) {
-                    Section (footer: Text("Undo the most recent sort - note that only one undo is possible, it's recommended you save your preferred layout using the \"Back Up Current Layout\" button above.")) {
-                        Button("Undo Last Sort") {
-                            restoreBackup()
-                        }.foregroundColor(.red)
-                        
-                    }
+                    Button("Undo Last Sort") {
+                        restoreBackup()
+                    }.foregroundColor(.red)
                 }
                 Section (footer: Text("Appabetical version \(version) by Avangelista")) {
                     Button("Check for Updates") {
-                        
+                        openGithub()
                     }
                 }
             }.navigationTitle("Appabetical")

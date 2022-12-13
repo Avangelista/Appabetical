@@ -126,10 +126,12 @@ class AppUtils {
     }
     
     func getIcon(id: String) -> UIImage {
+        // add error check
         return idToIcon[id]!
     }
     
     func getName(id: String) -> String {
+        // add error check
         return idToName[id]!
     }
 }

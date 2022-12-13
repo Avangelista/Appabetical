@@ -80,7 +80,7 @@ func compareByType(object1: Any, object2: Any, folderOp: FolderOptions) -> Bool 
             if listType == "folder" {
                 o1Folder = true
                 if folderOp == FolderOptions.noSort {
-                    return false // i think
+                    // do nothing
                 } else if folderOp == FolderOptions.alongside {
                     if dict.keys.contains("displayName") {
                         let displayName = dict["displayName"] as! String
@@ -126,7 +126,7 @@ func compareByType(object1: Any, object2: Any, folderOp: FolderOptions) -> Bool 
             if listType == "folder" {
                 o2Folder = true
                 if folderOp == FolderOptions.noSort {
-                    return true // i think
+                    // do nothing
                 } else if folderOp == FolderOptions.alongside {
                     if dict.keys.contains("displayName") {
                         let displayName = dict["displayName"] as! String
@@ -156,6 +156,15 @@ func compareByType(object1: Any, object2: Any, folderOp: FolderOptions) -> Bool 
         } else if o2Folder {
             return false
         }
+    } else if folderOp == FolderOptions.noSort {
+        if o1Folder && o2Folder {
+            return false
+        } else if o1Folder {
+            return true
+        } else if o2Folder {
+            return false
+        }
     }
+    
     return o1New.lowercased() < o2New.lowercased()
 }
