@@ -13,7 +13,9 @@ class AppUtils {
     private init() {
         fm = FileManager.default
         idToName = [:]
+        idToBundle = [:]
         idToIcon = [:]
+        idToColor = [:]
         
         let apps = LSApplicationWorkspace.default().allApplications() ?? []
         for app in apps {
@@ -21,31 +23,31 @@ class AppUtils {
             let name = app.localizedName()
             idToName[app.applicationIdentifier] = name
             
-            // Get icon
-            let bundleUrl = app.bundleURL!
-            let icon = _getIcon(bundleUrl: bundleUrl)
-            idToIcon[app.applicationIdentifier] = icon
+            // Get bundle
+            let bundleUrl = app.bundleURL
+            idToBundle[app.applicationIdentifier] = bundleUrl
         }
     }
 
     private let fm: FileManager
-    private var idToName: Dictionary<String, String>
-    private var idToIcon: Dictionary<String, UIImage>
+    private var idToName: [String:String]
+    private var idToBundle: [String:URL]
+    private var idToIcon: [String:UIImage]
+    private var idToColor: [String:UIColor]
     
     private func _getIcon(bundleUrl: URL) -> UIImage {
         let infoPlistUrl = bundleUrl.appendingPathComponent("Info.plist")
         if !fm.fileExists(atPath: infoPlistUrl.path) {
-            print("No Info.plist found")
             return UIImage()
         }
-        let infoPlist = NSDictionary(contentsOf: infoPlistUrl) as! Dictionary<String, AnyObject>
+        guard let infoPlist = NSDictionary(contentsOf: infoPlistUrl) as? [String:AnyObject] else { return UIImage () }
         if infoPlist.keys.contains("CFBundleIcons") {
-            let CFBundleIcons = infoPlist["CFBundleIcons"] as! Dictionary<String, AnyObject>
+            guard let CFBundleIcons = infoPlist["CFBundleIcons"] as? [String:AnyObject] else { return UIImage () }
             if CFBundleIcons.keys.contains("CFBundlePrimaryIcon") {
-                let CFBundlePrimaryIcon = CFBundleIcons["CFBundlePrimaryIcon"] as! Dictionary<String, AnyObject>
+                guard let CFBundlePrimaryIcon = CFBundleIcons["CFBundlePrimaryIcon"] as? [String:AnyObject] else { return UIImage () }
                 if CFBundlePrimaryIcon.keys.contains("CFBundleIconName") {
                     // Check assets file, hope there's a better way than this
-                    let CFBundleIconName = CFBundlePrimaryIcon["CFBundleIconName"] as! String
+                    guard let CFBundleIconName = CFBundlePrimaryIcon["CFBundleIconName"] as? String else { return UIImage () }
                     let assetsUrl = bundleUrl.appendingPathComponent("Assets.car")
                     do {
                         let (_, renditionsRoot) = try AssetCatalogWrapper.shared.renditions(forCarArchive: assetsUrl)
@@ -53,18 +55,18 @@ class AppUtils {
                             let renditions = rendition.renditions
                             for rend in renditions {
                                 if rend.namedLookup.name == CFBundleIconName {
-                                    return UIImage(cgImage: rend.image!)
+                                    guard let cgImage = rend.image else { return UIImage () }
+                                    return UIImage(cgImage: cgImage)
                                 }
                             }
                         }
                     } catch {
-                        print("Error with assets.car")
                         // fall thru
                     }
                 }
                 if CFBundlePrimaryIcon.keys.contains("CFBundleIconFiles") {
                     // Check bundle file
-                    let CFBundleIconFiles = CFBundlePrimaryIcon["CFBundleIconFiles"] as! Array<String>
+                    guard let CFBundleIconFiles = CFBundlePrimaryIcon["CFBundleIconFiles"] as? [String] else { return UIImage () }
                     if !CFBundleIconFiles.isEmpty {
                         let iconName = CFBundleIconFiles[0]
                         let appIcon = _iconFromFile(iconName: iconName, bundleUrl: bundleUrl)
@@ -75,64 +77,78 @@ class AppUtils {
         }
         if infoPlist.keys.contains("CFBundleIconFiles") {
             // Check bundle file
-            let CFBundleIconFiles = infoPlist["CFBundleIconFiles"] as! Array<String>
+            guard let CFBundleIconFiles = infoPlist["CFBundleIconFiles"] as? [String] else { return UIImage () }
             if !CFBundleIconFiles.isEmpty {
                 let iconName = CFBundleIconFiles[0]
                 let appIcon = _iconFromFile(iconName: iconName, bundleUrl: bundleUrl)
                 return appIcon
             }
         }
-        
         // Nothing found
-        print("No icons found for app")
         return UIImage()
     }
     
     // Get an app's icon from its bundle file
     private func _iconFromFile(iconName: String, bundleUrl: URL) -> UIImage {
         var iconFile = ""
-        var iconFound = false
+        var iconFound = true
         if fm.fileExists(atPath: bundleUrl.appendingPathComponent(iconName + ".png").path) {
             iconFile = iconName + ".png"
-            iconFound = true
         } else if fm.fileExists(atPath: bundleUrl.appendingPathComponent(iconName + "@2x.png").path) {
             iconFile = iconName + "@2x.png"
-            iconFound = true
         } else if fm.fileExists(atPath: bundleUrl.appendingPathComponent(iconName + "-large.png").path) {
             iconFile = iconName + "-large.png"
-            iconFound = true
         } else if fm.fileExists(atPath: bundleUrl.appendingPathComponent(iconName + "@23.png").path) {
             iconFile = iconName + "@23.png"
-            iconFound = true
         } else if fm.fileExists(atPath: bundleUrl.appendingPathComponent(iconName + "@3x.png").path) {
             iconFile = iconName + "@3x.png"
-            iconFound = true
+        } else {
+            iconFound = false
         }
 
         if iconFound {
             let iconUrl = (bundleUrl.appendingPathComponent(iconFile))
             do {
                 let iconData = try Data(contentsOf: iconUrl)
-                let icon = UIImage(data: iconData)!
+                guard let icon = UIImage(data: iconData) else { return UIImage () }
                 return icon
             } catch {
-                print(error.localizedDescription)
                 return UIImage()
             }
         }
-        
-        print("No icon found in bundle file")
         return UIImage()
     }
     
-    func getIcon(id: String) -> UIImage {
-        // add error check
-        return idToIcon[id]!
+//    func getIcon(id: String) -> UIImage {
+//        if let icon = idToIcon[id] {
+//            return icon
+//        } else {
+//            guard let bundleUrl = idToBundle[id] else { return UIImage() }
+//            let icon = _getIcon(bundleUrl: bundleUrl)
+//            idToIcon[id] = icon
+//            return icon
+//        }
+//    }
+    
+    func getColor(id: String) -> UIColor {
+        if let color = idToColor[id] {
+            return color
+        } else {
+            guard let bundleUrl = idToBundle[id] else { return UIColor.black }
+            var icon = idToIcon[id]
+            if icon == nil {
+                icon = _getIcon(bundleUrl: bundleUrl)
+                idToIcon[id] = icon
+            }
+            guard let color = icon?.mergedColor() else { return UIColor.black }
+            idToColor[id] = color
+            return color
+        }
     }
     
     func getName(id: String) -> String {
-        // add error check
-        return idToName[id]!
+        guard let name = idToName[id] else { return "" }
+        return name
     }
 }
 

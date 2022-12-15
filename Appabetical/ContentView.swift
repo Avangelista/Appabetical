@@ -14,126 +14,9 @@ let plistUrlBkp = URL(fileURLWithPath: "/var/mobile/Library/SpringBoard/IconStat
 let plistUrlNew = URL(fileURLWithPath: "/var/mobile/Library/SpringBoard/IconState.plist.new")
 let savedLayoutUrl = URL(fileURLWithPath: "/var/mobile/Library/SpringBoard/IconState.plist.saved")
 let version = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String
-
-extension UIImage {
-    var averageColor: UIColor? {
-        guard let inputImage = CIImage(image: self) else { return nil }
-        let extentVector = CIVector(x: inputImage.extent.origin.x, y: inputImage.extent.origin.y, z: inputImage.extent.size.width, w: inputImage.extent.size.height)
-
-        guard let filter = CIFilter(name: "CIAreaAverage", parameters: [kCIInputImageKey: inputImage, kCIInputExtentKey: extentVector]) else { return nil }
-        guard let outputImage = filter.outputImage else { return nil }
-
-        var bitmap = [UInt8](repeating: 0, count: 4)
-        let context = CIContext(options: [.workingColorSpace: kCFNull])
-        context.render(outputImage, toBitmap: &bitmap, rowBytes: 4, bounds: CGRect(x: 0, y: 0, width: 1, height: 1), format: .RGBA8, colorSpace: nil)
-
-        return UIColor(red: CGFloat(bitmap[0]) / 255, green: CGFloat(bitmap[1]) / 255, blue: CGFloat(bitmap[2]) / 255, alpha: CGFloat(bitmap[3]) / 255)
-    }
-}
-
-// Check if all selected pages are neighbouring
-func areNeighbouring(pages: Array<Int>) -> Bool {
-    if pages.isEmpty {
-        return true
-    }
-    for i in 1..<pages.count {
-        if pages[i] - pages[i - 1] > 1 {
-            return false
-        }
-    }
-    return true
-}
+let iconsOnAPage = 24 // iPads are either 20 or 30 I believe... no support yet
 
 struct ContentView: View {
-    // Respring the device if enabled
-    func respring() {
-        if yesRespring {
-            Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { _ in
-                guard let window = UIApplication.shared.windows.first else { return }
-                while true {
-                    window.snapshotView(afterScreenUpdates: false)
-                }
-            }
-        }
-    }
-    
-    // Open updates page
-    func openGithub() {
-        if let url = URL(string: "https://github.com/nutmeg-5000/Appabetical/releases") {
-            UIApplication.shared.open(url)
-        }
-    }
-    
-    func getTimeSaved(url: URL) -> String {
-        if fm.fileExists(atPath: url.path) {
-            do {
-                let attributes = try fm.attributesOfItem(atPath: url.path)
-                if let modificationDate = attributes[FileAttributeKey.modificationDate] as? Date {
-                    let dateFormatter = DateFormatter()
-                    dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
-                    let modificationDateString = dateFormatter.string(from: modificationDate)
-                    return modificationDateString
-                }
-            } catch {
-                errorMsg = error.localizedDescription
-            }
-        }
-        return "(unknown)"
-    }
-    
-    // Save a homescreen backup manually
-    func saveLayout() {
-        do {
-            if fm.fileExists(atPath: savedLayoutUrl.path) {
-                try fm.removeItem(at: savedLayoutUrl)
-            }
-            try fm.copyItem(at: plistUrl, to: savedLayoutUrl)
-            UIApplication.shared.alert(title: "Layout Saved", body: "Layout has been saved successfully.")
-        } catch {
-            errorMsg = error.localizedDescription
-            return
-        }
-    }
-    
-    // Restore the manual homescreen backup
-    func restoreLayout() {
-        UIApplication.shared.confirmAlert(title: "Confirm Restore", body: "This layout was saved on \(getTimeSaved(url: savedLayoutUrl)). Be mindful if you've added any apps, widgets or folders since then as they may appear incorrectly. Would you like to continue?", onOK: {
-            do {
-                try fm.replaceItemAt(plistUrl, withItemAt: savedLayoutUrl)
-                try fm.copyItem(at: plistUrl, to: savedLayoutUrl)
-                if fm.fileExists(atPath: plistUrlBkp.path) {
-                    try fm.removeItem(at: plistUrlBkp)
-                }
-            } catch {
-                errorMsg = error.localizedDescription
-                return
-            }
-
-            respring()
-        }, noCancel: false)
-    }
-    
-    // Restore the latest backup
-    func restoreBackup() {
-        UIApplication.shared.confirmAlert(title: "Confirm Undo", body: "This layout was saved on \(getTimeSaved(url: plistUrlBkp)). Be mindful if you've added any apps, widgets or folders since then as they may appear incorrectly. Would you like to continue?", onOK: {
-            do {
-                try fm.replaceItemAt(plistUrl, withItemAt: plistUrlBkp)
-            } catch {
-                errorMsg = error.localizedDescription
-                return
-            }
-
-            respring()
-        }, noCancel: false)
-    }
-    
-    // Get the number of pages on the user's home screen TODO check when sorting too
-    func getNumPages() -> Int {
-        let plist = NSDictionary(contentsOf: plistUrl) as! Dictionary<String, AnyObject>
-        let iconLists = plist["iconLists"] as! Array<Array<AnyObject>>
-        return iconLists.count
-    }
-    
     // Sort the selected pages
     func sortPage() {
         // Back up IconState normally
@@ -143,19 +26,22 @@ struct ContentView: View {
             }
             try fm.copyItem(at: plistUrl, to: plistUrlBkp)
         } catch {
-            errorMsg = error.localizedDescription
+            UIApplication.shared.alert(body: error.localizedDescription)
             return
         }
         
-        let au = AppUtils.shared
-        
         // Open IconState.plist
-        var plist = NSDictionary(contentsOf: plistUrl) as! Dictionary<String, AnyObject>
-        let iconLists = plist["iconLists"] as! Array<Array<AnyObject>>
-        var newIconLists = [Array<AnyObject>]()
+        guard var plist = NSDictionary(contentsOf: plistUrl) as? [String:AnyObject] else { return }
+        guard let iconLists = plist["iconLists"] as? [[AnyObject]] else { return }
+//        let today = plist["today"] as? [[String:AnyObject]] ?? [[String:AnyObject]]()
+        var newIconLists = [[AnyObject]]()
         for i in 0 ... iconLists.count - 1 {
             newIconLists.append(iconLists[i])
         }
+//        var newToday = [[String:AnyObject]]()
+//        for i in 0 ... today.count - 1 {
+//            newToday.append(today[i])
+//        }
         
         // If we are sorting across pages TODO implement check
         if pageOp == PageOptions.acrossPages {
@@ -183,37 +69,56 @@ struct ContentView: View {
             } else if sortOp == SortOptions.colour {
                 // TODO strange bug here that occurs if a Hue sort is run any time other than the first time. Possible memory issue? Current "fix" is respringing after any sort.
                 
-                // Get dominant colours of all icons
-                var idToColor = [String: UIColor]()
-                for c in newChosen {
-                    if c is String {
-                        let cs = c as! String
-                        idToColor[cs] = au.getIcon(id: cs).mergedColor()
-                    }
-                }
-                
                 // Sort by colour
-                newChosen.sort(by: { (o1, o2) in return compareByTypeColor(object1: o1, object2: o2, colorArray: idToColor)})
+                newChosen.sort(by: { (o1, o2) in return compareByTypeColor(object1: o1, object2: o2, folderOp: folderOp)})
             }
             newIconLists[i - 1] = newChosen
         }
-        plist["iconLists"] = newIconLists as AnyObject
+        
+        // Evenly distribute icons amongst pages to avoid overflow
+        if pageOp == PageOptions.acrossPages {
+            var newNewIconLists = [[AnyObject]]() // great variable naming!!!!!
+            for page in newIconLists {
+                var pageSize = 0
+                var pageNew = [AnyObject]()
+                for item in page {
+                    let itemSize = getItemSize(item: item).rawValue
+                    if pageSize == iconsOnAPage {
+                        pageSize = 0
+                        newNewIconLists.append(pageNew)
+                        pageNew.removeAll()
+                    }
+                    if pageSize + itemSize > iconsOnAPage {
+                        newNewIconLists.append(pageNew)
+                        pageNew.removeAll()
+                        pageSize = 0
+                    }
+                    pageNew.append(item)
+                    pageSize += itemSize
+                }
+                newNewIconLists.append(pageNew)
+            }
+            plist["iconLists"] = newNewIconLists as AnyObject
+        } else {
+            plist["iconLists"] = newIconLists as AnyObject
+        }
         
         // Save and validate the new file
         (plist as NSDictionary).write(to: plistUrlNew, atomically: true)
-        if validateIconState(old: plistUrl, new: plistUrlNew) {
+        let (valid, error) = validateIconState(old: plistUrl, new: plistUrlNew)
+        if valid {
             do {
                 try fm.replaceItemAt(plistUrl, withItemAt: plistUrlNew)
             } catch {
-                errorMsg = error.localizedDescription
+                UIApplication.shared.alert(body: error.localizedDescription)
                 return
             }
         } else {
-            errorMsg = "New IconState appears to be corrupt. Sorting has been aborted, and no system files have been edited."
+            UIApplication.shared.alert(body: "New IconState appears to be corrupt. Sorting has been aborted, and no system files have been edited. Specific error: \(error). Please screenshot and report.")
             return
         }
         
-        respring()
+//        respring()
     }
     
     // Settings variables
@@ -221,8 +126,9 @@ struct ContentView: View {
     @State private var pageOp = PageOptions.individually
     @State private var folderOp = FolderOptions.noSort
     @State private var sortOp = SortOptions.alpha
-    @State private var yesRespring = true
-    @State private var errorMsg = ""
+    
+    @Environment(\.openURL) var openURL
+
     
     var body: some View {
         NavigationView {
@@ -240,7 +146,7 @@ struct ContentView: View {
                     Picker("Ordering", selection: $sortOp) {
                         Text("A-Z").tag(SortOptions.alpha)
                         Text("Colour").tag(SortOptions.colour)
-                    }
+                    }.onChange(of: sortOp, perform: {nv in if nv == .colour && folderOp == .alongside { folderOp = .separately }})
                     Picker("Pages", selection: $pageOp) {
                         Text("Sort pages independently").tag(PageOptions.individually)
                         if areNeighbouring(pages: selectedItems) {
@@ -249,45 +155,49 @@ struct ContentView: View {
                     }
                     Picker("Folders", selection: $folderOp) {
                         Text("Retain current order").tag(FolderOptions.noSort)
-                        Text("Sort along with apps").tag(FolderOptions.alongside)
+                        if (sortOp == .alpha) {
+                            Text("Sort along with apps").tag(FolderOptions.alongside)
+                        }
                         Text("Sort separate from apps").tag(FolderOptions.separately)
                     }
                     Button("Sort Apps") {
                         sortPage()
                     }.disabled(selectedItems.isEmpty)
-//                    Toggle(isOn: $yesRespring) {
-//                        Text("Respring Afterwards")
-//                    }
-                    if !errorMsg.isEmpty {
-                        Text("Error: \(errorMsg)").foregroundColor(.red)
-                    }
                 }
-                Section (footer: fm.fileExists(atPath: savedLayoutUrl.path) ? Text("The previously saved layout will be overwritten.") : Text("It is recommended you save your current layout before experimenting.")) {
-                    if fm.fileExists(atPath: plistUrlBkp.path) {
-                        Button("Undo Last Sort") {
-                            restoreBackup()
-                        }.foregroundColor(.red)
-                    }
-                    if fm.fileExists(atPath: savedLayoutUrl.path) {
-                        Button("Restore Saved Layout") {
-                            restoreLayout()
-                        }.foregroundColor(.red)
-                    }
+                Section (footer: fm.fileExists(atPath: savedLayoutUrl.path) ? Text("The previously saved layout will be overwritten.") : Text("It is recommended you save your current layout before experimenting as only one undo is possible.")) {
+                    Button("Undo Last Sort") {
+                        restoreBackup()
+                    }.disabled(!fm.fileExists(atPath: plistUrlBkp.path))
+                    Button("Restore Saved Layout") {
+                        restoreLayout()
+                    }.disabled(!fm.fileExists(atPath: savedLayoutUrl.path))
                     Button("Back Up Current Layout") {
                         saveLayout()
                     }
                 }
-                if fm.fileExists(atPath: plistUrlBkp.path) {
-                    Button("Undo Last Sort") {
-                        restoreBackup()
-                    }.foregroundColor(.red)
-                }
-                Section (footer: Text("Appabetical version \(version) by Avangelista")) {
-                    Button("Check for Updates") {
-                        openGithub()
+            }.navigationTitle("Appabetical")
+            .toolbar {
+                ToolbarItemGroup(placement: .navigationBarTrailing) {
+                    Button(action: {
+                        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                        openURL(URL(string: "https://github.com/nutmeg-5000/Appabetical")!)
+                    }) {
+                        Image("github")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 24, height: 24)
+                    }
+                    Button(action: {
+                        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                        openURL(URL(string: "https://ko-fi.com/avangelista")!)
+                    }) {
+                        Image(systemName: "heart.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 20, height: 20)
                     }
                 }
-            }.navigationTitle("Appabetical")
+            }
         }
     }
 }

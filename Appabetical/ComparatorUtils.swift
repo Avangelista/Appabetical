@@ -8,20 +8,48 @@
 import Foundation
 import SwiftUI
 
-func compareByTypeColor(object1: Any, object2: Any, colorArray: Dictionary<String, UIColor>) -> Bool {
-    // add for web clip thing
-    if object1 is String && object2 is String {
+func compareByTypeColor(object1: Any, object2: Any, folderOp: FolderOptions) -> Bool {
+    let (o1t, o1b, o1n) = getTypeBundleName(item: object1)
+    let (o2t, o2b, o2n) = getTypeBundleName(item: object2)
+    
+    if o1t == .widget || o2t == .widget {
+        if o1t == .widget && o2t == .widget {
+            return getItemSize(item: object1).rawValue > getItemSize(item: object2).rawValue
+        } else if o1t == .widget {
+            return true
+        } else if o2t == .widget {
+            return false
+        }
+    } else if o1t == .folder || o2t == .folder {
+        if folderOp == FolderOptions.separately {
+            if o1t == .folder && o2t == .folder {
+                return o1n.lowercased() < o2n.lowercased()
+            } else if o1t == .folder {
+                return true
+            } else if o2t == .folder {
+                return false
+            }
+        } else if folderOp == FolderOptions.noSort {
+            if o1t == .folder && o2t == .folder {
+                return false
+            } else if o1t == .folder {
+                return true
+            } else if o2t == .folder {
+                return false
+            }
+        }
+    } else if (o1t == .app || o1t == .duplicateApp) && (o2t == .app || o2t == .duplicateApp) {
         var hue1: CGFloat = 0
         var saturation1: CGFloat = 0
         var brightness1: CGFloat = 0
         var alpha1: CGFloat = 0
-        colorArray[object1 as! String]!.getHue(&hue1, saturation: &saturation1, brightness: &brightness1, alpha: &alpha1)
+        AppUtils.shared.getColor(id: o1b).getHue(&hue1, saturation: &saturation1, brightness: &brightness1, alpha: &alpha1)
 
         var hue2: CGFloat = 0
         var saturation2: CGFloat = 0
         var brightness2: CGFloat = 0
         var alpha2: CGFloat = 0
-        colorArray[object2 as! String]!.getHue(&hue2, saturation: &saturation2, brightness: &brightness2, alpha: &alpha2)
+        AppUtils.shared.getColor(id: o2b).getHue(&hue2, saturation: &saturation2, brightness: &brightness2, alpha: &alpha2)
 
         if hue1 < hue2 {
             return true
@@ -40,131 +68,40 @@ func compareByTypeColor(object1: Any, object2: Any, colorArray: Dictionary<Strin
         } else if brightness1 > brightness2 {
             return false
         }
-    } else if object1 is String {
-        return false
-    } else if object2 is String {
-        return true
     }
-    // add a case here for folders at top
     return true
 }
 
-// Needless complex but we get it
 func compareByType(object1: Any, object2: Any, folderOp: FolderOptions) -> Bool {
-    var o1New = ""
-    var o2New = ""
-    var o1Folder = false
-    var o2Folder = false
+    let (o1t, _, o1n) = getTypeBundleName(item: object1)
+    let (o2t, _, o2n) = getTypeBundleName(item: object2)
     
-    if object1 is String{
-        o1New = AppUtils.shared.getName(id: object1 as! String)
-    } else if object1 is Dictionary<String, AnyObject> {
-        let dict = object1 as! Dictionary<String, AnyObject>
-        if dict.keys.contains("iconType") {
-            let iconType = dict["iconType"] as! String
-            // It's an app
-            if iconType == "app" {
-                if dict.keys.contains("bundleIdentifier") {
-                    let bundleIdentifier = dict["bundleIdentifier"] as! String
-                    o1New = AppUtils.shared.getName(id: bundleIdentifier)
-                }
-            // It's a widget
-            } else if iconType == "custom" {
-                return true // send it to the top
-            } else {
-                return true // idk
-            }
-        } else if dict.keys.contains("listType") {
-            let listType = dict["listType"] as! String
-            // It's a folder
-            if listType == "folder" {
-                o1Folder = true
-                if folderOp == FolderOptions.noSort {
-                    // do nothing
-                } else if folderOp == FolderOptions.alongside {
-                    if dict.keys.contains("displayName") {
-                        let displayName = dict["displayName"] as! String
-                        o1New = displayName
-                    }
-                } else if folderOp == FolderOptions.separately {
-                    if dict.keys.contains("displayName") {
-                        let displayName = dict["displayName"] as! String
-                        o1New = displayName
-                    }
-                }
-            } else {
-                return true // idk
-            }
-        } else {
-            return true // idk
-        }
-    } else {
-        return true // idk
-    }
-    
-    if object2 is String{
-        o2New = AppUtils.shared.getName(id: object2 as! String)
-    } else if object2 is Dictionary<String, AnyObject> {
-        let dict = object2 as! Dictionary<String, AnyObject>
-        if dict.keys.contains("iconType") {
-            let iconType = dict["iconType"] as! String
-            // It's an app
-            if iconType == "app" {
-                if dict.keys.contains("bundleIdentifier") {
-                    let bundleIdentifier = dict["bundleIdentifier"] as! String
-                    o2New = AppUtils.shared.getName(id: bundleIdentifier)
-                }
-            // It's a widget
-            } else if iconType == "custom" {
-                return false // send it to the top
-            } else {
-                return true // idk
-            }
-        } else if dict.keys.contains("listType") {
-            let listType = dict["listType"] as! String
-            // It's a folder
-            if listType == "folder" {
-                o2Folder = true
-                if folderOp == FolderOptions.noSort {
-                    // do nothing
-                } else if folderOp == FolderOptions.alongside {
-                    if dict.keys.contains("displayName") {
-                        let displayName = dict["displayName"] as! String
-                        o2New = displayName
-                    }
-                } else if folderOp == FolderOptions.separately {
-                    if dict.keys.contains("displayName") {
-                        let displayName = dict["displayName"] as! String
-                        o2New = displayName
-                    }
-                }
-            } else {
-                return true // idk
-            }
-        } else {
-            return true // idk
-        }
-    } else {
-        return true // idk
-    }
-    
-    if folderOp == FolderOptions.separately {
-        if o1Folder && o2Folder {
-            return o1New.lowercased() < o2New.lowercased()
-        } else if o1Folder {
+    if o1t == .widget || o2t == .widget {
+        if o1t == .widget && o2t == .widget {
+            return getItemSize(item: object1).rawValue > getItemSize(item: object2).rawValue
+        } else if o1t == .widget {
             return true
-        } else if o2Folder {
+        } else if o2t == .widget {
             return false
         }
-    } else if folderOp == FolderOptions.noSort {
-        if o1Folder && o2Folder {
-            return false
-        } else if o1Folder {
-            return true
-        } else if o2Folder {
-            return false
+    } else if o1t == .folder || o2t == .folder {
+        if folderOp == FolderOptions.separately {
+            if o1t == .folder && o2t == .folder {
+                return o1n.lowercased() < o2n.lowercased()
+            } else if o1t == .folder {
+                return true
+            } else if o2t == .folder {
+                return false
+            }
+        } else if folderOp == FolderOptions.noSort {
+            if o1t == .folder && o2t == .folder {
+                return false
+            } else if o1t == .folder {
+                return true
+            } else if o2t == .folder {
+                return false
+            }
         }
     }
-    
-    return o1New.lowercased() < o2New.lowercased()
+    return o1n.lowercased() < o2n.lowercased()
 }
