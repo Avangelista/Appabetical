@@ -29,12 +29,14 @@ struct AppabeticalApp: App {
             return identifier + String(UnicodeScalar(UInt8(value)))
         }
         if identifier.contains("iPad") {
-            UIApplication.shared.alert(title: "Warning", body: "Appabetical does not support iPad! Please do not use the app as there may be unexpected side effects.")
+            UIApplication.shared.alert(title: "Warning", body: "Appabetical does not support iPad yet! Please do not use the app as there may be unexpected side effects.")
             return false
         }
         return true
     }
     
+    // Credit to SourceLocation
+    // https://github.com/sourcelocation/AirTroller/blob/main/AirTroller/AirTrollerApp.swift
     func checkNewVersions() {
         if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String, let url = URL(string: "https://api.github.com/repos/Avangelista/Appabetical/releases/latest") {
             let task = URLSession.shared.dataTask(with: url) {(data, response, error) in

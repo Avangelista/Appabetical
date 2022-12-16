@@ -26,6 +26,10 @@ enum SortOptions: Equatable {
     case colour
 }
 
+enum WidgetOptions {
+    case top
+}
+
 enum ItemSize: Int {
     case normal = 1
     case small = 4

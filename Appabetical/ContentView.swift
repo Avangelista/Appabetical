@@ -28,6 +28,7 @@ struct ContentView: View {
         
         // Make sure the user hasn't selected a page, then adjusted their home screen before pressing Sort
         selectedItems = selectedItems.filter {$0 - 1 < iconLists.count}
+        if selectedItems.isEmpty { return }
         
         var newIconLists = [[AnyObject]]()
         for i in 0 ... iconLists.count - 1 {
@@ -122,6 +123,7 @@ struct ContentView: View {
     @State private var pageOp = PageOptions.individually
     @State private var folderOp = FolderOptions.noSort
     @State private var sortOp = SortOptions.alpha
+    @State private var widgetOp = WidgetOptions.top
     
     @Environment(\.openURL) var openURL
 
@@ -155,6 +157,9 @@ struct ContentView: View {
                             Text("Sort mixed with apps").tag(FolderOptions.alongside)
                         }
                         Text("Sort separate from apps").tag(FolderOptions.separately)
+                    }
+                    Picker("Widgets", selection: $widgetOp) {
+                        Text("Move to top").tag(WidgetOptions.top)
                     }
                     Button("Sort Apps") {
                         sortPage()
