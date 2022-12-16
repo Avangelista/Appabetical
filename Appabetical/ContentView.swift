@@ -26,6 +26,9 @@ struct ContentView: View {
         guard var plist = NSDictionary(contentsOf: plistUrl) as? [String:AnyObject] else { return }
         guard let iconLists = plist["iconLists"] as? [[AnyObject]] else { return }
         
+        // Make sure the user hasn't selected a page, then adjusted their home screen before pressing Sort
+        selectedItems = selectedItems.filter {$0 - 1 < iconLists.count}
+        
         var newIconLists = [[AnyObject]]()
         for i in 0 ... iconLists.count - 1 {
             newIconLists.append(iconLists[i])
@@ -170,10 +173,12 @@ struct ContentView: View {
                 }
             }.navigationTitle("Appabetical")
             .toolbar {
+                // Credit to SourceLocation
+                // https://github.com/sourcelocation/AirTroller/blob/main/AirTroller/ContentView.swift
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
                     Button(action: {
                         UIImpactFeedbackGenerator(style: .light).impactOccurred()
-                        openURL(URL(string: "https://github.com/nutmeg-5000/Appabetical")!)
+                        openURL(URL(string: "https://github.com/Avangelista/Appabetical")!)
                     }) {
                         Image("github")
                             .resizable()

@@ -1,10 +1,9 @@
-// https://github.com/NikolaiRuhe/UIImageAverageColor
 //
 //  UIImage+UIImageAverageColorAddition.h
-//  AvgColor
+//  Appabetical
 //
-//  Created by nikolai on 28.08.12.
-//  Copyright (c) 2012 Savoy Software. All rights reserved.
+//  Credit to NikolaiRuhe
+//  https://github.com/NikolaiRuhe/UIImageAverageColor
 //
 
 #import <UIKit/UIKit.h>

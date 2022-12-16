@@ -2,14 +2,14 @@
 //  MultiSelectPickerView.swift
 //  Appabetical
 //
-//  Created by Rory Madden on 13/12/22.
+//  Credit to SimplyKyra
+//  https://github.com/SimplyKyra/SimplyKyraBlog/blob/main/SwiftExamples/CustomMultiSelectionPicker.swift
 //
 
 import Foundation
 import SwiftUI
 
 // Custom multi-select picker
-// https://www.simplykyra.com/2022/02/23/how-to-make-a-custom-picker-with-multi-selection-in-swiftui/
 struct MultiSelectPickerView: View {
     @State var pages: (Int, [Int])
     @Binding var selectedItems: [Int]

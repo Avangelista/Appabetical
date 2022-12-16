@@ -2,7 +2,8 @@
 //  Alert.swift
 //  Appabetical
 //
-//  Created by SourceLocation on 21.11.2022.
+//  Credit to SourceLocation
+//  https://github.com/sourcelocation/AirTroller/blob/main/AirTroller/Misc/Alert.swift
 //
 
 import UIKit
