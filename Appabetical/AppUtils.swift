@@ -14,7 +14,6 @@ class AppUtils {
         fm = FileManager.default
         idToName = [:]
         idToBundle = [:]
-        idToIcon = [:]
         idToColor = [:]
         
         let apps = LSApplicationWorkspace.default().allApplications() ?? []
@@ -32,7 +31,6 @@ class AppUtils {
     private let fm: FileManager
     private var idToName: [String:String]
     private var idToBundle: [String:URL]
-    private var idToIcon: [String:UIImage]
     private var idToColor: [String:UIColor]
     
     private func _getIcon(bundleUrl: URL) -> UIImage {
@@ -119,36 +117,58 @@ class AppUtils {
         return UIImage()
     }
     
-//    func getIcon(id: String) -> UIImage {
-//        if let icon = idToIcon[id] {
-//            return icon
-//        } else {
-//            guard let bundleUrl = idToBundle[id] else { return UIImage() }
-//            let icon = _getIcon(bundleUrl: bundleUrl)
-//            idToIcon[id] = icon
-//            return icon
-//        }
-//    }
+    private func _getWebClipName(webClipID: String) -> String? {
+        let infoPlistUrl = webClipFolderUrl.appendingPathComponent(webClipID + ".webclip").appendingPathComponent("Info.plist")
+        if fm.fileExists(atPath: infoPlistUrl.path) {
+            guard let infoPlist = NSDictionary(contentsOf: infoPlistUrl) as? [String:AnyObject] else { return nil }
+            if infoPlist.keys.contains("Title") {
+                guard let Title = infoPlist["Title"] as? String else { return nil }
+                return Title
+            }
+        }
+        return nil
+    }
+    
+    private func _getWebClipIcon(webClipID: String) -> UIImage? {
+        let iconUrl = webClipFolderUrl.appendingPathComponent(webClipID + ".webclip").appendingPathComponent("icon.png")
+        if fm.fileExists(atPath: iconUrl.path) {
+            do {
+                let iconData = try Data(contentsOf: iconUrl)
+                guard let icon = UIImage(data: iconData) else { return nil }
+                return icon
+            } catch {
+                return nil
+            }
+        }
+        return nil
+    }
     
     func getColor(id: String) -> UIColor {
         if let color = idToColor[id] {
             return color
         } else {
-            guard let bundleUrl = idToBundle[id] else { return UIColor.black }
-            var icon = idToIcon[id]
-            if icon == nil {
-                icon = _getIcon(bundleUrl: bundleUrl)
-                idToIcon[id] = icon
+            if let bundleUrl = idToBundle[id] {
+                // App
+                guard let color = _getIcon(bundleUrl: bundleUrl).mergedColor() else { return UIColor.black }
+                idToColor[id] = color
+                return color
+            } else {
+                // Web clip
+                guard let color = _getWebClipIcon(webClipID: id)?.mergedColor() else { return UIColor.black }
+                idToColor[id] = color
+                return color
             }
-            guard let color = icon?.mergedColor() else { return UIColor.black }
-            idToColor[id] = color
-            return color
         }
     }
     
     func getName(id: String) -> String {
-        guard let name = idToName[id] else { return "" }
-        return name
+        if let name = idToName[id] {
+            return name
+        } else {
+            guard let webClipName = _getWebClipName(webClipID: id) else { return "" }
+            idToName[id] = webClipName
+            return webClipName
+        }
     }
 }
 

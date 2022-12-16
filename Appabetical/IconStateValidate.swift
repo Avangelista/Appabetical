@@ -30,16 +30,18 @@ func validateIconState(old: URL, new: URL) -> (Bool, String) {
                 }
                 if iconSetOld != iconSetNew { return (false, "Contents of iconLists array differs between \(old.lastPathComponent) and \(new.lastPathComponent)") }
             } else if key == "listMetadata" {
-                // listMetadata often contains date objects, which can have sub-second differences between saves
-                // Check that the textual representations are equal to avoid sub-second differences
-                if value.description != value2.description {
-                    return (false, "Contents of listMetadata dictionary differs between \(old.lastPathComponent) and \(new.lastPathComponent)")
-                }
+                // listMetadata should be empty as we are showing all hidden pages
+                return (false, "Contents of listMetadata should be empty in \(new.lastPathComponent)")
+            } else if key == "listUniqueIdentifiers" {
+                // Size of iconLists should equal size of listUniqueIdentifiers
+                guard let iconListsNew = newState["iconLists"] as? [[NSObject]] else { return (false, "Could not read value of key iconLists in \(new.lastPathComponent) in expected format") }
+                guard let listUniqueIdentifiers = newState["listUniqueIdentifiers"] as? [NSObject] else { return (false, "Could not read value of key listUniqueIdentifiers in \(new.lastPathComponent) in expected format") }
+                guard iconListsNew.count == listUniqueIdentifiers.count else { return (false, "Number of pages and page identifiers differs in \(new.lastPathComponent)") }
             } else if !value.isEqual(value2) {
                 return (false, "Value of key \(key) differs between \(old.lastPathComponent) and \(new.lastPathComponent)")
             }
         } else {
-            return (false, "Key \(key) missing from \(new.lastPathComponent)")
+            guard key == "listMetadata" else { return (false, "Key \(key) missing from \(new.lastPathComponent)") }
         }
     }
     for (key, _) in newState {

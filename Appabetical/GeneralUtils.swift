@@ -30,7 +30,7 @@ func getItemSize(item: Any) -> ItemSize {
 
 func getTypeBundleName(item: Any) -> (ItemType, String, String) {
     if item is String{
-        // App OR web clip!! TODO
+        // App / web clip / app clip
         guard let itemS = item as? String else { return (.unknown, "", "") }
         return (.app, itemS, AppUtils.shared.getName(id: itemS))
     } else if item is [String:AnyObject] {
@@ -41,7 +41,7 @@ func getTypeBundleName(item: Any) -> (ItemType, String, String) {
             if iconType == "app" {
                 if dict.keys.contains("bundleIdentifier") {
                     guard let bundleIdentifier = dict["bundleIdentifier"] as? String else { return (.unknown, "", "") }
-                    return (.duplicateApp, bundleIdentifier, AppUtils.shared.getName(id: bundleIdentifier))
+                    return (.app, bundleIdentifier, AppUtils.shared.getName(id: bundleIdentifier))
                 }
             // Widget
             } else if iconType == "custom" {
@@ -103,8 +103,20 @@ func getTimeSaved(url: URL) -> String {
 }
 
 // Get the number of pages on the user's home screen TODO check when sorting too
-func getNumPages() -> Int {
-    guard let plist = NSDictionary(contentsOf: plistUrl) as? [String:AnyObject] else { return 0 }
-    guard let iconLists = plist["iconLists"] as? [[AnyObject]] else { return 0 }
-    return iconLists.count
+func getPages() -> (Int, [Int]) {
+    guard let plist = NSDictionary(contentsOf: plistUrl) as? [String:AnyObject] else { return (0, []) }
+    guard let iconLists = plist["iconLists"] as? [[AnyObject]] else { return (0, []) }
+    // Hidden pages
+    var hiddenPages = [Int]()
+    if let listMetadata = plist["listMetadata"] as? [String:[String:AnyObject]] {
+        guard let listUniqueIdentifiers = plist["listUniqueIdentifiers"] as? [String] else { return (0, []) }
+        for (index, page) in listUniqueIdentifiers.enumerated() {
+            for (key, value) in listMetadata {
+                if key == page && value.keys.contains("hiddenDate") {
+                    hiddenPages.append(index + 1)
+                }
+            }
+        }
+    }
+    return (iconLists.count, hiddenPages)
 }

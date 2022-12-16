@@ -13,35 +13,23 @@ let plistUrl = URL(fileURLWithPath: "/var/mobile/Library/SpringBoard/IconState.p
 let plistUrlBkp = URL(fileURLWithPath: "/var/mobile/Library/SpringBoard/IconState.plist.bkp")
 let plistUrlNew = URL(fileURLWithPath: "/var/mobile/Library/SpringBoard/IconState.plist.new")
 let savedLayoutUrl = URL(fileURLWithPath: "/var/mobile/Library/SpringBoard/IconState.plist.saved")
+let webClipFolderUrl = URL(fileURLWithPath: "/var/mobile/Library/WebClips/")
 let version = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String
 let iconsOnAPage = 24 // iPads are either 20 or 30 I believe... no support yet
 
 struct ContentView: View {
     // Sort the selected pages
     func sortPage() {
-        // Back up IconState normally
-        do {
-            if fm.fileExists(atPath: plistUrlBkp.path) {
-                try fm.removeItem(at: plistUrlBkp)
-            }
-            try fm.copyItem(at: plistUrl, to: plistUrlBkp)
-        } catch {
-            UIApplication.shared.alert(body: error.localizedDescription)
-            return
-        }
+        makeBackup()
         
         // Open IconState.plist
         guard var plist = NSDictionary(contentsOf: plistUrl) as? [String:AnyObject] else { return }
         guard let iconLists = plist["iconLists"] as? [[AnyObject]] else { return }
-//        let today = plist["today"] as? [[String:AnyObject]] ?? [[String:AnyObject]]()
+        
         var newIconLists = [[AnyObject]]()
         for i in 0 ... iconLists.count - 1 {
             newIconLists.append(iconLists[i])
         }
-//        var newToday = [[String:AnyObject]]()
-//        for i in 0 ... today.count - 1 {
-//            newToday.append(today[i])
-//        }
         
         // If we are sorting across pages TODO implement check
         if pageOp == PageOptions.acrossPages {
@@ -65,17 +53,16 @@ struct ContentView: View {
             
             if sortOp == SortOptions.alpha {
                 // Sort the names
-                newChosen.sort(by: {(o1,o2) in compareByType(object1: o1, object2: o2, folderOp: folderOp)})
+                newChosen.sort(by: { (o1, o2) in compareByType(object1: o1, object2: o2, folderOp: folderOp) })
             } else if sortOp == SortOptions.colour {
-                // TODO strange bug here that occurs if a Hue sort is run any time other than the first time. Possible memory issue? Current "fix" is respringing after any sort.
-                
                 // Sort by colour
-                newChosen.sort(by: { (o1, o2) in return compareByTypeColor(object1: o1, object2: o2, folderOp: folderOp)})
+                newChosen.sort(by: { (o1, o2) in compareByTypeColor(object1: o1, object2: o2, folderOp: folderOp) })
             }
             newIconLists[i - 1] = newChosen
         }
         
         // Evenly distribute icons amongst pages to avoid overflow
+        var pageCount: Int
         if pageOp == PageOptions.acrossPages {
             var newNewIconLists = [[AnyObject]]() // great variable naming!!!!!
             for page in newIconLists {
@@ -83,15 +70,10 @@ struct ContentView: View {
                 var pageNew = [AnyObject]()
                 for item in page {
                     let itemSize = getItemSize(item: item).rawValue
-                    if pageSize == iconsOnAPage {
-                        pageSize = 0
-                        newNewIconLists.append(pageNew)
-                        pageNew.removeAll()
-                    }
                     if pageSize + itemSize > iconsOnAPage {
+                        pageSize = 0
                         newNewIconLists.append(pageNew)
                         pageNew.removeAll()
-                        pageSize = 0
                     }
                     pageNew.append(item)
                     pageSize += itemSize
@@ -99,9 +81,21 @@ struct ContentView: View {
                 newNewIconLists.append(pageNew)
             }
             plist["iconLists"] = newNewIconLists as AnyObject
+            pageCount = newNewIconLists.count
         } else {
             plist["iconLists"] = newIconLists as AnyObject
+            pageCount = newIconLists.count
         }
+        
+        // Show all hidden pages
+        plist["listMetadata"] = nil
+        
+        // Generate new UUIDs for pages
+        var newUUIDs = [String]()
+        for _ in 0..<pageCount {
+            newUUIDs.append(UUID().uuidString)
+        }
+        plist["listUniqueIdentifiers"] = newUUIDs as AnyObject
         
         // Save and validate the new file
         (plist as NSDictionary).write(to: plistUrlNew, atomically: true)
@@ -114,11 +108,10 @@ struct ContentView: View {
                 return
             }
         } else {
-            UIApplication.shared.alert(body: "New IconState appears to be corrupt. Sorting has been aborted, and no system files have been edited. Specific error: \(error). Please screenshot and report.")
+            UIApplication.shared.alert(body: "New IconState appears to be invalid. Sorting has been aborted, and no system files have been edited. Specific error: \(error). Please screenshot and report.")
             return
         }
-        
-//        respring()
+        respring()
     }
     
     // Settings variables
@@ -135,7 +128,7 @@ struct ContentView: View {
             List {
                 Section {
                     NavigationLink(destination: {
-                        MultiSelectPickerView(allItems: [Int](1...getNumPages()), selectedItems: $selectedItems, pageOp: $pageOp).navigationBarTitle("", displayMode: .inline)
+                        MultiSelectPickerView(pages: getPages(), selectedItems: $selectedItems, pageOp: $pageOp).navigationBarTitle("", displayMode: .inline)
                     }, label: {
                         HStack {
                             Text("Select Pages")

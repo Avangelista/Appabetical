@@ -26,26 +26,17 @@ enum SortOptions: Equatable {
     case colour
 }
 
-enum WidgetOption {
-    case top
-    case newPage
-    case today
-}
-
 enum ItemSize: Int {
     case normal = 1
     case small = 4
     case medium = 8
     case large = 16
-    case unknown = -1
+    case unknown = 0
 }
 
 enum ItemType {
     case app
-    case duplicateApp
     case folder
     case widget
-    case appClip
-    case webClip
     case unknown
 }

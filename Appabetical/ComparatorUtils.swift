@@ -38,7 +38,7 @@ func compareByTypeColor(object1: Any, object2: Any, folderOp: FolderOptions) -> 
                 return false
             }
         }
-    } else if (o1t == .app || o1t == .duplicateApp) && (o2t == .app || o2t == .duplicateApp) {
+    } else if o1t == .app && o2t == .app {
         var hue1: CGFloat = 0
         var saturation1: CGFloat = 0
         var brightness1: CGFloat = 0
