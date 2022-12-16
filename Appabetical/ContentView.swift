@@ -34,7 +34,7 @@ struct ContentView: View {
             newIconLists.append(iconLists[i])
         }
         
-        // If we are sorting across pages TODO implement check
+        // If we are sorting across pages
         if pageOp == PageOptions.acrossPages {
             newIconLists[selectedItems[0] - 1] = []
             for i in selectedItems {
@@ -152,7 +152,7 @@ struct ContentView: View {
                     Picker("Folders", selection: $folderOp) {
                         Text("Retain current order").tag(FolderOptions.noSort)
                         if (sortOp == .alpha) {
-                            Text("Sort along with apps").tag(FolderOptions.alongside)
+                            Text("Sort mixed with apps").tag(FolderOptions.alongside)
                         }
                         Text("Sort separate from apps").tag(FolderOptions.separately)
                     }

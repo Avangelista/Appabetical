@@ -104,7 +104,7 @@ func getTimeSaved(url: URL) -> String {
     return "(unknown)"
 }
 
-// Get the number of pages on the user's home screen TODO check when sorting too
+// Get the pages on the user's home screen, as well as any hidden pages
 func getPages() -> (Int, [Int]) {
     guard let plist = NSDictionary(contentsOf: plistUrl) as? [String:AnyObject] else { return (0, []) }
     guard let iconLists = plist["iconLists"] as? [[AnyObject]] else { return (0, []) }

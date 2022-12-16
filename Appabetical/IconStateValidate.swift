@@ -11,12 +11,15 @@ func validateIconState(old: URL, new: URL) -> (Bool, String) {
     guard let oldState = NSDictionary(contentsOf: old) as? [String : NSObject] else { return (false, "Could not read \(old.lastPathComponent) in expected format") }
     guard let newState = NSDictionary(contentsOf: new) as? [String : NSObject] else { return (false, "Could not read \(new.lastPathComponent) in expected format") }
     
+    // Make sure the file contains expected data
     guard newState.keys.contains("buttonBar") else { return (false, "Could not find key buttonBar in \(new.lastPathComponent)") }
     guard newState.keys.contains("iconLists") else { return (false, "Could not find key iconLists in \(new.lastPathComponent)") }
     
     for (key, value) in oldState {
+        // Check that all keys are present in both
         if let value2 = newState[key] {
             if key == "iconLists" {
+                // Ensure all apps and folders are present in both
                 guard let iconListsOld = value as? [[NSObject]] else { return (false, "Could not read value of key \(key) in \(old.lastPathComponent) in expected format") }
                 guard let iconListsNew = newState[key] as? [[NSObject]] else { return (false, "Could not read value of key \(key) in \(new.lastPathComponent) in expected format") }
                 var iconSetOld: Set<NSObject> = []
@@ -44,6 +47,7 @@ func validateIconState(old: URL, new: URL) -> (Bool, String) {
             guard key == "listMetadata" else { return (false, "Key \(key) missing from \(new.lastPathComponent)") }
         }
     }
+    // Ensure no extraneous keys are present in the new file
     for (key, _) in newState {
         if oldState[key] == nil {
             return (false, "Additional key \(key) erroneously present in \(new.lastPathComponent)")
