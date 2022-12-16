@@ -9,11 +9,23 @@ import Foundation
 
 // Save a homescreen backup manually
 func saveLayout() {
-    UIApplication.shared.confirmAlert(title: "Confirm Save", body: "This will overwrite your previously saved layout. Would you like to continue?", onOK: {
-        do {
-            if fm.fileExists(atPath: savedLayoutUrl.path) {
-                try fm.removeItem(at: savedLayoutUrl)
+    if fm.fileExists(atPath: savedLayoutUrl.path) {
+        UIApplication.shared.confirmAlert(title: "Confirm Save", body: "This will overwrite your previously saved layout. Would you like to continue?", onOK: {
+            do {
+                if fm.fileExists(atPath: savedLayoutUrl.path) {
+                    try fm.removeItem(at: savedLayoutUrl)
+                }
+                try fm.copyItem(at: plistUrl, to: savedLayoutUrl)
+                // Set modification date to now
+                let attributes: [FileAttributeKey : Any] = [.modificationDate: Date()]
+                try fm.setAttributes(attributes, ofItemAtPath: savedLayoutUrl.path)
+                UIApplication.shared.alert(title: "Layout Saved", body: "Layout has been saved successfully.")
+            } catch {
+                UIApplication.shared.alert(body: error.localizedDescription)
             }
+        }, noCancel: false)
+    } else {
+        do {
             try fm.copyItem(at: plistUrl, to: savedLayoutUrl)
             // Set modification date to now
             let attributes: [FileAttributeKey : Any] = [.modificationDate: Date()]
@@ -22,7 +34,7 @@ func saveLayout() {
         } catch {
             UIApplication.shared.alert(body: error.localizedDescription)
         }
-    }, noCancel: false)
+    }
 }
 
 // Restore the manual homescreen backup
