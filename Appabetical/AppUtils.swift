@@ -73,6 +73,12 @@ class AppUtils {
                 }
             }
         }
+        if infoPlist.keys.contains("CFBundleIconFile") {
+            // Check bundle file
+            guard let CFBundleIconFile = infoPlist["CFBundleIconFile"] as? String else { return UIImage () }
+            let appIcon = _iconFromFile(iconName: CFBundleIconFile, bundleUrl: bundleUrl)
+            return appIcon
+        }
         if infoPlist.keys.contains("CFBundleIconFiles") {
             // Check bundle file
             guard let CFBundleIconFiles = infoPlist["CFBundleIconFiles"] as? [String] else { return UIImage () }
