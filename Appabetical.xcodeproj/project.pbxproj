@@ -9,11 +9,10 @@
 /* Begin PBXBuildFile section */
 		25733B5E293DFEE000E10D10 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 25733B5D293DFEE000E10D10 /* Assets.xcassets */; };
 		25745EBD294988DF003245EE /* GeneralUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25745EBC294988DF003245EE /* GeneralUtils.swift */; };
-		25745EBF2949897C003245EE /* BackupUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25745EBE2949897C003245EE /* BackupUtils.swift */; };
+		25745EBF2949897C003245EE /* BackupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25745EBE2949897C003245EE /* BackupManager.swift */; };
 		25787CAD2946B194002BA871 /* UIImage+UIImageAverageColorAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = 25787CAC2946B194002BA871 /* UIImage+UIImageAverageColorAddition.m */; };
-		25787CAF2946F3E7002BA871 /* AppUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25787CAE2946F3E7002BA871 /* AppUtils.swift */; };
+		25787CAF2946F3E7002BA871 /* SpringBoardAppUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25787CAE2946F3E7002BA871 /* SpringBoardAppUtils.swift */; };
 		25787CB629471C82002BA871 /* AssetCatalogWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 25787CB529471C82002BA871 /* AssetCatalogWrapper */; };
-		258CEEC0294898C800D767CA /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258CEEBF294898C800D767CA /* Alert.swift */; };
 		25A3C7C1293D66430061A435 /* AppabeticalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25A3C7C0293D66430061A435 /* AppabeticalApp.swift */; };
 		25A3C7C3293D66430061A435 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25A3C7C2293D66430061A435 /* ContentView.swift */; };
 		25A3C7C8293D66440061A435 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 25A3C7C7293D66440061A435 /* Preview Assets.xcassets */; };
@@ -21,16 +20,26 @@
 		25AC3A0E2947F80800F5A201 /* MultiSelectPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25AC3A0D2947F80800F5A201 /* MultiSelectPickerView.swift */; };
 		25AC3A102947F83200F5A201 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25AC3A0F2947F83200F5A201 /* Enums.swift */; };
 		25AC3A12294805A200F5A201 /* IconStateValidate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25AC3A11294805A200F5A201 /* IconStateValidate.swift */; };
+<<<<<<< Updated upstream
+=======
+		CE3397C9294DF76E00299BE8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE3397C8294DF76E00299BE8 /* Assets.xcassets */; };
+		CE3397CC294DF89B00299BE8 /* ApplicationsWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = CE3397CB294DF89B00299BE8 /* ApplicationsWrapper */; };
+		CE3397CE294DFD7300299BE8 /* SortingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3397CD294DFD7300299BE8 /* SortingManager.swift */; };
+		CE3397D3294DFE3900299BE8 /* Color++.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3397D0294DFE3900299BE8 /* Color++.swift */; };
+		CE3397D4294DFE3900299BE8 /* Alert++.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3397D1294DFE3900299BE8 /* Alert++.swift */; };
+		CE3397D5294DFE3900299BE8 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3397D2294DFE3900299BE8 /* String.swift */; };
+		CE3397D7294E1B0900299BE8 /* Respring.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3397D6294E1B0900299BE8 /* Respring.swift */; };
+		CE3397DA294E1EFB00299BE8 /* SpringBoardItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3397D9294E1EFB00299BE8 /* SpringBoardItem.swift */; };
+>>>>>>> Stashed changes
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		25733B5D293DFEE000E10D10 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../../../../../Downloads/AppIcons/Assets.xcassets; sourceTree = "<group>"; };
 		25745EBC294988DF003245EE /* GeneralUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralUtils.swift; sourceTree = "<group>"; };
-		25745EBE2949897C003245EE /* BackupUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupUtils.swift; sourceTree = "<group>"; };
+		25745EBE2949897C003245EE /* BackupManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupManager.swift; sourceTree = "<group>"; };
 		25787CAB2946B17A002BA871 /* UIImage+UIImageAverageColorAddition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+UIImageAverageColorAddition.h"; sourceTree = "<group>"; };
 		25787CAC2946B194002BA871 /* UIImage+UIImageAverageColorAddition.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+UIImageAverageColorAddition.m"; sourceTree = "<group>"; };
-		25787CAE2946F3E7002BA871 /* AppUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUtils.swift; sourceTree = "<group>"; };
-		258CEEBF294898C800D767CA /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
+		25787CAE2946F3E7002BA871 /* SpringBoardAppUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpringBoardAppUtils.swift; sourceTree = "<group>"; };
 		25A3C7BD293D66430061A435 /* Appabetical.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Appabetical.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		25A3C7C0293D66430061A435 /* AppabeticalApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppabeticalApp.swift; sourceTree = "<group>"; };
 		25A3C7C2293D66430061A435 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -41,6 +50,16 @@
 		25AC3A0D2947F80800F5A201 /* MultiSelectPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiSelectPickerView.swift; sourceTree = "<group>"; };
 		25AC3A0F2947F83200F5A201 /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
 		25AC3A11294805A200F5A201 /* IconStateValidate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconStateValidate.swift; sourceTree = "<group>"; };
+<<<<<<< Updated upstream
+=======
+		CE3397C8294DF76E00299BE8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		CE3397CD294DFD7300299BE8 /* SortingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortingManager.swift; sourceTree = "<group>"; };
+		CE3397D0294DFE3900299BE8 /* Color++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Color++.swift"; sourceTree = "<group>"; };
+		CE3397D1294DFE3900299BE8 /* Alert++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Alert++.swift"; sourceTree = "<group>"; };
+		CE3397D2294DFE3900299BE8 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		CE3397D6294E1B0900299BE8 /* Respring.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Respring.swift; sourceTree = "<group>"; };
+		CE3397D9294E1EFB00299BE8 /* SpringBoardItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpringBoardItem.swift; sourceTree = "<group>"; };
+>>>>>>> Stashed changes
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,7 +93,14 @@
 		25A3C7BF293D66430061A435 /* Appabetical */ = {
 			isa = PBXGroup;
 			children = (
+<<<<<<< Updated upstream
 				258CEEBF294898C800D767CA /* Alert.swift */,
+=======
+				CE3397D8294E1EEB00299BE8 /* Classes */,
+				CE3397CF294DFE3900299BE8 /* Extensions */,
+				CE3397C6294DEE6C00299BE8 /* Utils */,
+				CE3397C5294DEE5F00299BE8 /* Views */,
+>>>>>>> Stashed changes
 				25A3C7C0293D66430061A435 /* AppabeticalApp.swift */,
 				25AC3A11294805A200F5A201 /* IconStateValidate.swift */,
 				25AC3A0B2947F76C00F5A201 /* ComparatorUtils.swift */,
@@ -102,6 +128,56 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+<<<<<<< Updated upstream
+=======
+		CE3397C5294DEE5F00299BE8 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				25A3C7C2293D66430061A435 /* ContentView.swift */,
+				25AC3A0D2947F80800F5A201 /* MultiSelectPickerView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		CE3397C6294DEE6C00299BE8 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				25AC3A0B2947F76C00F5A201 /* ComparatorUtils.swift */,
+				25787CAE2946F3E7002BA871 /* SpringBoardAppUtils.swift */,
+				25745EBC294988DF003245EE /* GeneralUtils.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		CE3397CA294DF89B00299BE8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CE3397CF294DFE3900299BE8 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				CE3397D0294DFE3900299BE8 /* Color++.swift */,
+				CE3397D1294DFE3900299BE8 /* Alert++.swift */,
+				CE3397D2294DFE3900299BE8 /* String.swift */,
+				CE3397D6294E1B0900299BE8 /* Respring.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		CE3397D8294E1EEB00299BE8 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				CE3397D9294E1EFB00299BE8 /* SpringBoardItem.swift */,
+				25745EBE2949897C003245EE /* BackupManager.swift */,
+				CE3397CD294DFD7300299BE8 /* SortingManager.swift */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+>>>>>>> Stashed changes
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -181,13 +257,18 @@
 			files = (
 				25AC3A12294805A200F5A201 /* IconStateValidate.swift in Sources */,
 				25AC3A0C2947F76C00F5A201 /* ComparatorUtils.swift in Sources */,
-				25787CAF2946F3E7002BA871 /* AppUtils.swift in Sources */,
+				25787CAF2946F3E7002BA871 /* SpringBoardAppUtils.swift in Sources */,
 				25AC3A0E2947F80800F5A201 /* MultiSelectPickerView.swift in Sources */,
+				CE3397D7294E1B0900299BE8 /* Respring.swift in Sources */,
+				CE3397D4294DFE3900299BE8 /* Alert++.swift in Sources */,
 				25A3C7C3293D66430061A435 /* ContentView.swift in Sources */,
+				CE3397D3294DFE3900299BE8 /* Color++.swift in Sources */,
 				25787CAD2946B194002BA871 /* UIImage+UIImageAverageColorAddition.m in Sources */,
-				25745EBF2949897C003245EE /* BackupUtils.swift in Sources */,
+				25745EBF2949897C003245EE /* BackupManager.swift in Sources */,
+				CE3397DA294E1EFB00299BE8 /* SpringBoardItem.swift in Sources */,
 				25AC3A102947F83200F5A201 /* Enums.swift in Sources */,
-				258CEEC0294898C800D767CA /* Alert.swift in Sources */,
+				CE3397CE294DFD7300299BE8 /* SortingManager.swift in Sources */,
+				CE3397D5294DFE3900299BE8 /* String.swift in Sources */,
 				25A3C7C1293D66430061A435 /* AppabeticalApp.swift in Sources */,
 				25745EBD294988DF003245EE /* GeneralUtils.swift in Sources */,
 			);

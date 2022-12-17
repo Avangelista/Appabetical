@@ -7,24 +7,7 @@
 
 import Foundation
 
-// Options for sorting pages
-enum PageOptions {
-    case individually
-    case acrossPages
-}
-
-// Options for sorting folders
-enum FolderOptions {
-    case noSort
-    case alongside
-    case separately
-}
-
-// Options for type of sort to use
-enum SortOptions: Equatable {
-    case alpha
-    case colour
-}
+// Options for sorting
 
 enum WidgetOptions {
     case top
@@ -38,7 +21,7 @@ enum ItemSize: Int {
     case unknown = 0
 }
 
-enum ItemType {
+enum ItemType: Int {
     case app
     case folder
     case widget

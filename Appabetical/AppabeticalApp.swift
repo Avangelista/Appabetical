@@ -13,14 +13,16 @@ struct AppabeticalApp: App {
         WindowGroup {
             ContentView()
             .onAppear {
-                if (notAniPad()) {
+                if !isiPad() {
                     checkNewVersions()
+                } else {
+                    UIApplication.shared.alert(title: "Warning", body: "Appabetical does not support iPad yet! Please do not use the app as there may be unexpected side effects.")
                 }
             }
         }
     }
     
-    func notAniPad() -> Bool {
+    func isiPad() -> Bool {
         var systemInfo = utsname()
         uname(&systemInfo)
         let machineMirror = Mirror(reflecting: systemInfo.machine)
@@ -28,11 +30,7 @@ struct AppabeticalApp: App {
             guard let value = element.value as? Int8, value != 0 else { return identifier }
             return identifier + String(UnicodeScalar(UInt8(value)))
         }
-        if identifier.contains("iPad") {
-            UIApplication.shared.alert(title: "Warning", body: "Appabetical does not support iPad yet! Please do not use the app as there may be unexpected side effects.")
-            return false
-        }
-        return true
+        return identifier.contains("iPad")
     }
     
     // Credit to SourceLocation

@@ -7,20 +7,15 @@
 
 import Foundation
 
-func getItemSize(item: Any) -> ItemSize {
-    if item is [String:AnyObject] {
-        guard let dict = item as? [String:AnyObject] else { return .unknown }
-        if dict.keys.contains("iconType") {
-            guard let iconType = dict["iconType"] as? String else { return .unknown }
-            if iconType == "custom" {
-                if dict.keys.contains("gridSize") {
-                    guard let gridSize = dict["gridSize"] as? String else { return .unknown }
-                    switch gridSize {
-                    case "small": return .small
-                    case "medium": return .medium
-                    case "large": return .large
-                    default: return .unknown
-                    }
+func getItemSize(item: [String:Any]) -> ItemSize {
+    if let iconType = item["iconType"] as? String  {
+        if iconType == "custom" {
+            if let gridSize = item["gridSize"] as? String  {
+                switch gridSize {
+                case "small": return .small
+                case "medium": return .medium
+                case "large": return .large
+                default: return .unknown
                 }
             }
         }
@@ -28,41 +23,35 @@ func getItemSize(item: Any) -> ItemSize {
     return .normal
 }
 
-func getTypeBundleName(item: Any) -> (ItemType, String, String) {
-    if item is String{
+func getSpringBoardItem(item: Any) throws -> SpringBoardItem {
+    if let item = item as? String {
         // App / web clip / app clip
-        guard let itemS = item as? String else { return (.unknown, "", "") }
-        return (.app, itemS, AppUtils.shared.getName(id: itemS))
-    } else if item is [String:AnyObject] {
-        guard let dict = item as? [String:AnyObject] else { return (.unknown, "", "") }
-        if dict.keys.contains("iconType") {
-            guard let iconType = dict["iconType"] as? String else { return (.unknown, "", "") }
+        return .init(title: item, bundleID: item, type: .app)
+    } else if let item = item as? [String : Any] {
+        if let iconType = item["iconType"] as? String {
             // Duplicate app
             if iconType == "app" {
-                if dict.keys.contains("bundleIdentifier") {
-                    guard let bundleIdentifier = dict["bundleIdentifier"] as? String else { return (.unknown, "", "") }
-                    return (.app, bundleIdentifier, AppUtils.shared.getName(id: bundleIdentifier))
+                if let bundleIdentifier = item["bundleIdentifier"] as? String {
+                    return .init(title: SpringBoardAppUtils.shared.getName(id: bundleIdentifier), bundleID: bundleIdentifier, type: .app)
                 }
             // Widget
             } else if iconType == "custom" {
-                return (.widget, "", "")
+                return .init(title: "", bundleID: "", widgetSize: getItemSize(item: item), type: .widget)
             }
-        } else if dict.keys.contains("listType") {
-            guard let listType = dict["listType"] as? String else { return (.unknown, "", "") }
+        } else if let listType = item["listType"] as? String {
             // Folder
             if listType == "folder" {
-                if dict.keys.contains("displayName") {
-                    guard let displayName = dict["displayName"] as? String else { return (.unknown, "", "") }
-                    return (.folder, "", displayName)
+                if let displayName = item["displayName"] as? String {
+                    return .init(title: displayName, bundleID: "", type: .folder)
                 }
             }
         }
     }
-    return (.unknown, "", "")
+    throw "Unknown app type"
 }
 
 // Check if all selected pages are neighbouring
-func areNeighbouring(pages: [Int]) -> Bool {
+func arePagesNeighbouring(pages: [Int]) -> Bool {
     if pages.isEmpty {
         return true
     }
@@ -74,43 +63,15 @@ func areNeighbouring(pages: [Int]) -> Bool {
     return true
 }
 
-// Respring the device
-// Credit to haxi0
-// https://github.com/haxi0/InstaSpring/blob/main/InstaSpring/InstaSpring/ContentView.swift
-func respring() {
-    Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false) { _ in
-        guard let window = UIApplication.shared.windows.first else { return }
-        while true {
-            window.snapshotView(afterScreenUpdates: false)
-        }
-    }
-}
 
-// Get the time saved of a file in yyyy-MM-dd HH:mm
-func getTimeSaved(url: URL) -> String {
-    if fm.fileExists(atPath: url.path) {
-        do {
-            let attributes = try fm.attributesOfItem(atPath: url.path)
-            if let modificationDate = attributes[FileAttributeKey.modificationDate] as? Date {
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
-                let modificationDateString = dateFormatter.string(from: modificationDate)
-                return modificationDateString
-            }
-        } catch {
-            return "(unknown)"
-        }
-    }
-    return "(unknown)"
-}
 
 // Get the pages on the user's home screen, as well as any hidden pages
 func getPages() -> (Int, [Int]) {
-    guard let plist = NSDictionary(contentsOf: plistUrl) as? [String:AnyObject] else { return (0, []) }
-    guard let iconLists = plist["iconLists"] as? [[AnyObject]] else { return (0, []) }
+    guard let plist = NSDictionary(contentsOf: plistUrl) as? [String:Any] else { return (0, []) }
+    guard let iconLists = plist["iconLists"] as? [[Any]] else { return (0, []) }
     // Hidden pages
     var hiddenPages = [Int]()
-    if let listMetadata = plist["listMetadata"] as? [String:[String:AnyObject]] {
+    if let listMetadata = plist["listMetadata"] as? [String:[String:Any]] {
         guard let listUniqueIdentifiers = plist["listUniqueIdentifiers"] as? [String] else { return (0, []) }
         for (index, page) in listUniqueIdentifiers.enumerated() {
             for (key, value) in listMetadata {
