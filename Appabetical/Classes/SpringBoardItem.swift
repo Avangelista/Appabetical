@@ -9,7 +9,7 @@ import Foundation
 
 
 class SpringBoardItem {
-    func compare(to item2: SpringBoardItem, folderSortingOption: SortingManager.FolderSortingOption, sortingOption: SortingManager.SortOption) -> Bool {
+    func compare(to item2: SpringBoardItem, folderSortingOption: IconStateManager.FolderSortingOption, sortingOption: IconStateManager.SortOption) -> Bool {
         let item1 = self
         
         if item1.type == .widget || item2.type == .widget {
@@ -70,6 +70,7 @@ class SpringBoardItem {
     var widgetSize: ItemSize?
     var type: ItemType
     
+    
     init(title: String,  bundleID: String, widgetSize: ItemSize? = nil, type: ItemType) {
         self.title = title
         self.bundleID = bundleID
@@ -77,5 +78,50 @@ class SpringBoardItem {
         self.type = type
     }
     
+    convenience init(from item: AnyObject) {
+        func getItemSize(item: [String:Any]) -> ItemSize {
+            if let iconType = item["iconType"] as? String  {
+                if iconType == "custom" {
+                    if let gridSize = item["gridSize"] as? String  {
+                        switch gridSize {
+                        case "small": return .small
+                        case "medium": return .medium
+                        case "large": return .large
+                        default: return .unknown
+                        }
+                    }
+                }
+            }
+            return .normal
+        }
+        
+        if let item = item as? String {
+            // App / web clip / app clip
+            self.init(title: item, bundleID: item, type: .app)
+        } else if let item = item as? [String : Any] {
+            if let iconType = item["iconType"] as? String {
+                // Duplicate app
+                if iconType == "app" {
+                    if let bundleIdentifier = item["bundleIdentifier"] as? String {
+                        self.init(title: SpringBoardAppUtils.shared.getName(id: bundleIdentifier), bundleID: bundleIdentifier, type: .app)
+                    }
+                    // Widget
+                } else if iconType == "custom" {
+                    self.init(title: "", bundleID: "", widgetSize: getItemSize(item: item), type: .widget)
+                }
+            } else if let listType = item["listType"] as? String {
+                // Folder
+                if listType == "folder" {
+                    if let displayName = item["displayName"] as? String {
+                        self.init(title: displayName, bundleID: "", type: .folder)
+                    }
+                }
+            }
+        }
+        self.init(title: "", bundleID: "", type: .unknown)
+    }
     
+    func asIconStateItem() {
+        
+    }
 }

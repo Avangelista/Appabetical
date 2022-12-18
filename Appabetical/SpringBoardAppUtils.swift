@@ -7,6 +7,7 @@
 
 import Foundation
 import AssetCatalogWrapper
+import ApplicationsWrapper
 
 class SpringBoardAppUtils {
     static let shared = SpringBoardAppUtils()
@@ -20,11 +21,11 @@ class SpringBoardAppUtils {
         for app in apps {
             // Get name
             let name = app.localizedName()
-            idToName[app.applicationIdentifier] = name
+            idToName[app.applicationIdentifier()] = name
             
             // Get bundle
-            let bundleUrl = app.bundleURL
-            idToBundle[app.applicationIdentifier] = bundleUrl
+            let bundleUrl = app.bundleURL()
+            idToBundle[app.applicationIdentifier()] = bundleUrl
         }
     }
 

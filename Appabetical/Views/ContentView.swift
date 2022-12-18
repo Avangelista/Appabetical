@@ -22,7 +22,7 @@ struct ContentView: View {
     func sort() {
         do {
             // Make sure the user hasn't selected a page, then adjusted their home screen before pressing Sort
-            let pageCount = try SortingManager.shared.pageCount()
+            let pageCount = try IconStateManager.shared.pageCount()
             selectedItems = selectedItems.filter {$0 - 1 < pageCount }
             if selectedItems.isEmpty { return }
             
@@ -35,9 +35,9 @@ struct ContentView: View {
     
     // Settings variables
     @State private var selectedItems = [Int]()
-    @State private var pageOp = SortingManager.PageSortingOption.individually
-    @State private var folderOp = SortingManager.FolderSortingOption.noSort
-    @State private var sortOp = SortingManager.SortOption.alphabetically
+    @State private var pageOp = IconStateManager.PageSortingOption.individually
+    @State private var folderOp = IconStateManager.FolderSortingOption.noSort
+    @State private var sortOp = IconStateManager.SortOption.alphabetically
     @State private var widgetOp = WidgetOptions.top
     
     @Environment(\.openURL) var openURL
@@ -48,7 +48,7 @@ struct ContentView: View {
             List {
                 Section {
                     NavigationLink(destination: {
-                        MultiSelectPickerView(pages: getPages(), selectedItems: $selectedItems, pageOp: $pageOp).navigationBarTitle("", displayMode: .inline)
+                        MultiSelectPickerView(pages: IconStateManager.getPages(), selectedItems: $selectedItems, pageOp: $pageOp).navigationBarTitle("", displayMode: .inline)
                     }, label: {
                         HStack {
                             Text("Select Pages")
@@ -57,21 +57,21 @@ struct ContentView: View {
                         }
                     })
                     Picker("Ordering", selection: $sortOp) {
-                        Text("A-Z").tag(.alphabetically)
-                        Text("Colour").tag(.color)
-                    }.onChange(of: sortOp, perform: {nv in if nv == .colour && folderOp == .alongside { folderOp = .separately }})
+                        Text("A-Z").tag(IconStateManager.SortOption.alphabetically)
+                        Text("Colour").tag(IconStateManager.SortOption.color)
+                    }.onChange(of: sortOp, perform: {nv in if nv == .color && folderOp == .alongside { folderOp = .separately }})
                     Picker("Pages", selection: $pageOp) {
-                        Text("Sort pages independently").tag(.individually)
-                        if arePagesNeighbouring(pages: selectedItems) {
-                            Text("Sort apps across pages").tag(.acrossPages)
+                        Text("Sort pages independently").tag(IconStateManager.PageSortingOption.individually)
+                        if IconStateManager.arePagesNeighbouring(pages: selectedItems) {
+                            Text("Sort apps across pages").tag(IconStateManager.PageSortingOption.acrossPages)
                         }
                     }
                     Picker("Folders", selection: $folderOp) {
-                        Text("Retain current order").tag(.noSort)
-                        if (sortOp == .alpha) {
-                            Text("Sort mixed with apps").tag(.alongside)
+                        Text("Retain current order").tag(IconStateManager.FolderSortingOption.noSort)
+                        if (sortOp == .alphabetically) {
+                            Text("Sort mixed with apps").tag(IconStateManager.FolderSortingOption.alongside)
                         }
-                        Text("Sort separate from apps").tag(.separately)
+                        Text("Sort separate from apps").tag(IconStateManager.FolderSortingOption.separately)
                     }
                     Picker("Widgets", selection: $widgetOp) {
                         Text("Move to top").tag(WidgetOptions.top)

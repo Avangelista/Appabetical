@@ -1,16 +1,23 @@
 {
-  "object": {
-    "pins": [
-      {
-        "package": "SantanderWrappers",
-        "repositoryURL": "https://github.com/SerenaKit/SantanderWrappers",
-        "state": {
-          "branch": "main",
-          "revision": "78c19b2eeba612b0fb7b13df7ab304062ee22622",
-          "version": null
-        }
+  "pins" : [
+    {
+      "identity" : "dynamic",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/mhdhejazi/Dynamic",
+      "state" : {
+        "branch" : "master",
+        "revision" : "772883073d044bc754d401cabb6574624eb3778f"
       }
-    ]
-  },
-  "version": 1
+    },
+    {
+      "identity" : "santanderwrappers",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SerenaKit/SantanderWrappers",
+      "state" : {
+        "branch" : "main",
+        "revision" : "78c19b2eeba612b0fb7b13df7ab304062ee22622"
+      }
+    }
+  ],
+  "version" : 2
 }

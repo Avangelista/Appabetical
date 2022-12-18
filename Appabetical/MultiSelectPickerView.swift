@@ -13,7 +13,7 @@ import SwiftUI
 struct MultiSelectPickerView: View {
     @State var pages: (Int, [Int])
     @Binding var selectedItems: [Int]
-    @Binding var pageOp: PageSortingOption
+    @Binding var pageOp: IconStateManager.PageSortingOption
  
     var body: some View {
         Form {
@@ -29,8 +29,8 @@ struct MultiSelectPickerView: View {
                                     self.selectedItems.append(item)
                                 }
                                 self.selectedItems.sort()
-                                if !areNeighbouring(pages: self.selectedItems) {
-                                    self.pageOp = PageSortingOption.individually // bug here
+                                if !IconStateManager.arePagesNeighbouring(pages: self.selectedItems) {
+                                    self.pageOp = IconStateManager.PageSortingOption.individually // bug here
                                 }
                             }
                         }) {

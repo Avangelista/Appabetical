@@ -6,6 +6,15 @@
 //
 
 import SwiftUI
+import Dynamic
+
+
+typealias UsageReportCompletionBlock = @convention(block) (
+    _ localUsageReports: NSArray?,
+    _ usageReportsByDeviceIdentifier: NSDictionary?,
+    _ aggregateUsageReports: NSArray?,
+    _ error: NSError?) -> Void
+
 
 @main
 struct AppabeticalApp: App {
@@ -18,6 +27,19 @@ struct AppabeticalApp: App {
                 } else {
                     UIApplication.shared.alert(title: "Warning", body: "Appabetical does not support iPad yet! Please do not use the app as there may be unexpected side effects.")
                 }
+            }
+            .onAppear {
+                Bundle(url: URL(fileURLWithPath: "/System/Library/PrivateFrameworks/UsageTracking.framework"))?.load()
+                print("ok")
+                remLog("start")
+                Dynamic.USUsageReporter().fetchReportsDuringInterval(
+                    DateInterval(start: Date().addingTimeInterval(-3600), end: Date()),
+                    partitionInterval: TimeInterval(3600 * 1),
+                    forceImmediateSync: false,
+                    completionHandler: { (localUsageReports,usageReportsByDeviceIdentifier, aggregateUsageReports, error) in
+                        remLog("received", localUsageReports, "usageReportsByDeviceIdentifier", usageReportsByDeviceIdentifier, "aggregateUsageReports", aggregateUsageReports, "error", error)
+                    } as UsageReportCompletionBlock
+                )
             }
         }
     }

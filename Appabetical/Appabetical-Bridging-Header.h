@@ -3,3 +3,4 @@
 //
 
 #import "UIImage+UIImageAverageColorAddition.h"
+#import "RemoteLog.h"
