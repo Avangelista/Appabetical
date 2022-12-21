@@ -35,13 +35,13 @@ class SpringBoardItem {
                var saturation1: CGFloat = 0
                var brightness1: CGFloat = 0
                var alpha1: CGFloat = 0
-                SpringBoardAppUtils.shared.getColor(id: item1.bundleID).getHue(&hue1, saturation: &saturation1, brightness: &brightness1, alpha: &alpha1)
+                IconStateItemHelper.shared.getColor(id: item1.bundleID).getHue(&hue1, saturation: &saturation1, brightness: &brightness1, alpha: &alpha1)
 
                var hue2: CGFloat = 0
                var saturation2: CGFloat = 0
                var brightness2: CGFloat = 0
                var alpha2: CGFloat = 0
-                SpringBoardAppUtils.shared.getColor(id: item2.bundleID).getHue(&hue2, saturation: &saturation2, brightness: &brightness2, alpha: &alpha2)
+                IconStateItemHelper.shared.getColor(id: item2.bundleID).getHue(&hue2, saturation: &saturation2, brightness: &brightness2, alpha: &alpha2)
 
                if hue1 < hue2 {
                    return true
@@ -65,13 +65,15 @@ class SpringBoardItem {
         return item1.title.lowercased() < item2.title.lowercased()
     }
     
-    var title: String
-    var bundleID: String
-    var widgetSize: ItemSize?
-    var type: ItemType
+    private(set) var title: String
+    private(set) var bundleID: String
+    private(set) var widgetSize: ItemSize?
+    private(set) var type: ItemType
     
+    /// An object (dict for widgets, folders and duplicate apps) that was obtained from iconstate.plist
+    public var originalObject: AnyObject!
     
-    init(title: String,  bundleID: String, widgetSize: ItemSize? = nil, type: ItemType) {
+    private init(title: String,  bundleID: String, widgetSize: ItemSize? = nil, type: ItemType) {
         self.title = title
         self.bundleID = bundleID
         self.widgetSize = widgetSize
@@ -95,33 +97,52 @@ class SpringBoardItem {
             return .normal
         }
         
-        if let item = item as? String {
+        self.init(title: "", bundleID: "", type: .unknown)
+        
+        if let bundleID = item as? String {
             // App / web clip / app clip
-            self.init(title: item, bundleID: item, type: .app)
-        } else if let item = item as? [String : Any] {
+            self.init(title: IconStateItemHelper.shared.getName(id: bundleID), bundleID: bundleID, type: .app)
+        } else if let dict = item as? [String : Any] {
             if let iconType = item["iconType"] as? String {
                 // Duplicate app
                 if iconType == "app" {
-                    if let bundleIdentifier = item["bundleIdentifier"] as? String {
-                        self.init(title: SpringBoardAppUtils.shared.getName(id: bundleIdentifier), bundleID: bundleIdentifier, type: .app)
+                    if let bundleID = dict["bundleIdentifier"] as? String {
+                        self.init(title: IconStateItemHelper.shared.getName(id: bundleID), bundleID: bundleID, type: .app)
                     }
-                    // Widget
                 } else if iconType == "custom" {
-                    self.init(title: "", bundleID: "", widgetSize: getItemSize(item: item), type: .widget)
+                    // Widget
+                    self.init(title: "", bundleID: "", widgetSize: getItemSize(item: dict), type: .widget)
                 }
-            } else if let listType = item["listType"] as? String {
+            } else if let listType = dict["listType"] as? String {
                 // Folder
                 if listType == "folder" {
-                    if let displayName = item["displayName"] as? String {
+                    if let displayName = dict["displayName"] as? String {
                         self.init(title: displayName, bundleID: "", type: .folder)
                     }
                 }
             }
         }
-        self.init(title: "", bundleID: "", type: .unknown)
-    }
-    
-    func asIconStateItem() {
+        
+        originalObject = item
         
     }
+    
+    
+    // MARK: Enums
+    
+    enum ItemSize: Int {
+        case normal = 1
+        case small = 4
+        case medium = 8
+        case large = 16
+        case unknown = 0
+    }
+
+    enum ItemType: Int {
+        case app
+        case folder
+        case widget
+        case unknown
+    }
+
 }

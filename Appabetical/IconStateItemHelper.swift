@@ -9,8 +9,8 @@ import Foundation
 import AssetCatalogWrapper
 import ApplicationsWrapper
 
-class SpringBoardAppUtils {
-    static let shared = SpringBoardAppUtils()
+class IconStateItemHelper {
+    static let shared = IconStateItemHelper()
     private init() {
         fm = FileManager.default
         idToName = [:]

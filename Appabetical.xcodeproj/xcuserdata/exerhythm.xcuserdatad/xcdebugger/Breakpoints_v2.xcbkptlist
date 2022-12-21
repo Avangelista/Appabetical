@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "6757BB32-235E-461E-A8CD-EB2473988159"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "353739AA-0D14-4DDD-925A-FBBBA71C58AA"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Appabetical/Managers/IconStateManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "57"
+            endingLineNumber = "57"
+            landmarkName = "sortPages(selectedPages:sortOption:pageSortingOption:folderSortingOption:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "353739AA-0D14-4DDD-925A-FBBBA71C58AA - 1aad48aa6b1795cc"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Appabetical.IconStateManager.sortPages(selectedPages: Swift.Array&lt;Swift.Int&gt;, sortOption: Appabetical.IconStateManager.SortOption, pageSortingOption: Appabetical.IconStateManager.PageSortingOption, folderSortingOption: Appabetical.IconStateManager.FolderSortingOption) throws -&gt; ()"
+                  moduleName = "Appabetical"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/exerhythm/developer/tweaks/Appabetical/Appabetical/Managers/IconStateManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "57"
+                  endingLineNumber = "57"
+                  offsetFromSymbolStart = "2188">
+               </Location>
+               <Location
+                  uuid = "353739AA-0D14-4DDD-925A-FBBBA71C58AA - a7afd5ce33f8c09a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #4 (Swift.Int, Swift.Array&lt;Appabetical.SpringBoardItem&gt;) -&gt; Swift.Array&lt;Appabetical.SpringBoardItem&gt; in Appabetical.IconStateManager.sortPages(selectedPages: Swift.Array&lt;Swift.Int&gt;, sortOption: Appabetical.IconStateManager.SortOption, pageSortingOption: Appabetical.IconStateManager.PageSortingOption, folderSortingOption: Appabetical.IconStateManager.FolderSortingOption) throws -&gt; ()"
+                  moduleName = "Appabetical"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/exerhythm/developer/tweaks/Appabetical/Appabetical/Managers/IconStateManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "58"
+                  endingLineNumber = "58"
+                  offsetFromSymbolStart = "76">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>

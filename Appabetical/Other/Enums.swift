@@ -12,18 +12,3 @@ import Foundation
 enum WidgetOptions {
     case top
 }
-
-enum ItemSize: Int {
-    case normal = 1
-    case small = 4
-    case medium = 8
-    case large = 16
-    case unknown = 0
-}
-
-enum ItemType: Int {
-    case app
-    case folder
-    case widget
-    case unknown
-}

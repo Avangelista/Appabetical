@@ -8,15 +8,6 @@
 import SwiftUI
 import MobileCoreServices
 
-let fm = FileManager.default
-let plistUrl = URL(fileURLWithPath: "/var/mobile/Library/SpringBoard/IconState.plist")
-let plistUrlBkp = URL(fileURLWithPath: "/var/mobile/Library/SpringBoard/IconState.plist.bkp")
-let plistUrlNew = URL(fileURLWithPath: "/var/mobile/Library/SpringBoard/IconState.plist.new")
-let savedLayoutUrl = URL(fileURLWithPath: "/var/mobile/Library/SpringBoard/IconState.plist.saved")
-let webClipFolderUrl = URL(fileURLWithPath: "/var/mobile/Library/WebClips/")
-let version = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String
-let iconsOnAPage = 24 // iPads are either 20 or 30 I believe... no support yet
-
 struct ContentView: View {
     // Sort the selected pages
     func sort() {
@@ -53,18 +44,18 @@ struct ContentView: View {
                         HStack {
                             Text("Select Pages")
                             Spacer()
-                            Text(selectedItems.map { String($0) }.joined(separator: ", ")).foregroundColor(.secondary)
+                            Text(selectedItems.map { String($0 + 1) }.joined(separator: ", ")).foregroundColor(.secondary)
                         }
                     })
                     Picker("Ordering", selection: $sortOp) {
                         Text("A-Z").tag(IconStateManager.SortOption.alphabetically)
-                        Text("Colour").tag(IconStateManager.SortOption.color)
+                        Text("Color").tag(IconStateManager.SortOption.color)
                     }.onChange(of: sortOp, perform: {nv in if nv == .color && folderOp == .alongside { folderOp = .separately }})
                     Picker("Pages", selection: $pageOp) {
                         Text("Sort pages independently").tag(IconStateManager.PageSortingOption.individually)
-                        if IconStateManager.arePagesNeighbouring(pages: selectedItems) {
+//                        if IconStateManager.arePagesNeighbouring(pages: selectedItems) {
                             Text("Sort apps across pages").tag(IconStateManager.PageSortingOption.acrossPages)
-                        }
+//                        }
                     }
                     Picker("Folders", selection: $folderOp) {
                         Text("Retain current order").tag(IconStateManager.FolderSortingOption.noSort)
@@ -120,11 +111,16 @@ struct ContentView: View {
     }
     
     func sortPage() {
-        
+        do {
+            try IconStateManager.shared.sortPages(selectedPages: selectedItems, sortOption: sortOp, pageSortingOption: pageOp, folderSortingOption: folderOp)
+            UIDevice.current.respring()
+        } catch {
+            UIApplication.shared.alert(body: error.localizedDescription)
+        }
     }
     
     func saveLayout() {
-        
+        BackupManager.saveLayout()
     }
     
     
@@ -140,7 +136,6 @@ struct ContentView: View {
     }
     
     func restoreLayout() {
-        
         UIApplication.shared.confirmAlert(title: "Confirm Undo", body: "This layout was saved on \(BackupManager.getTimeSaved(url: plistUrlBkp) ?? "(unknown date)"). Be mindful if you've added/removed any apps, widgets or folders since then as they may appear incorrectly. Would you like to continue?", onOK: {
             do {
                 try BackupManager.restoreLayout()

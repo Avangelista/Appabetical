@@ -8,12 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		25787CB629471C82002BA871 /* AssetCatalogWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 25787CB529471C82002BA871 /* AssetCatalogWrapper */; };
+		CE1C572E29508E4B008C992A /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1C572D29508E4B008C992A /* Constants.swift */; };
 		CE3C4497294E742F00E28A2D /* BackupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3C4481294E742D00E28A2D /* BackupManager.swift */; };
 		CE3C4498294E742F00E28A2D /* IconStateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3C4482294E742D00E28A2D /* IconStateManager.swift */; };
 		CE3C4499294E742F00E28A2D /* SpringBoardItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3C4483294E742D00E28A2D /* SpringBoardItem.swift */; };
-		CE3C449A294E742F00E28A2D /* GeneralUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3C4484294E742D00E28A2D /* GeneralUtils.swift */; };
 		CE3C449B294E742F00E28A2D /* MultiSelectPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3C4485294E742D00E28A2D /* MultiSelectPickerView.swift */; };
-		CE3C449C294E742F00E28A2D /* IconStateValidate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3C4486294E742D00E28A2D /* IconStateValidate.swift */; };
 		CE3C449D294E742F00E28A2D /* AppabeticalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3C4487294E742E00E28A2D /* AppabeticalApp.swift */; };
 		CE3C449E294E742F00E28A2D /* UIImage+UIImageAverageColorAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = CE3C4488294E742E00E28A2D /* UIImage+UIImageAverageColorAddition.m */; };
 		CE3C44A1294E742F00E28A2D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3C448B294E742E00E28A2D /* ContentView.swift */; };
@@ -22,7 +21,7 @@
 		CE3C44A4294E742F00E28A2D /* Respring.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3C448F294E742E00E28A2D /* Respring.swift */; };
 		CE3C44A5294E742F00E28A2D /* Alert++.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3C4490294E742E00E28A2D /* Alert++.swift */; };
 		CE3C44A6294E742F00E28A2D /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3C4491294E742E00E28A2D /* String.swift */; };
-		CE3C44A8294E742F00E28A2D /* SpringBoardAppUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3C4494294E742F00E28A2D /* SpringBoardAppUtils.swift */; };
+		CE3C44A8294E742F00E28A2D /* IconStateItemHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3C4494294E742F00E28A2D /* IconStateItemHelper.swift */; };
 		CE3C44A9294E742F00E28A2D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE3C4496294E742F00E28A2D /* Preview Assets.xcassets */; };
 		CE3C44AD294E74F700E28A2D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE3C44AC294E74F700E28A2D /* Assets.xcassets */; };
 		CE3C44B3294F2CB500E28A2D /* Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = CE3C44B2294F2CB500E28A2D /* Dynamic */; };
@@ -34,13 +33,12 @@
 
 /* Begin PBXFileReference section */
 		25A3C7BD293D66430061A435 /* Appabetical.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Appabetical.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE1C572D29508E4B008C992A /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		CE3C447F294E742D00E28A2D /* UIImage+UIImageAverageColorAddition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+UIImageAverageColorAddition.h"; sourceTree = "<group>"; };
 		CE3C4481294E742D00E28A2D /* BackupManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackupManager.swift; sourceTree = "<group>"; };
 		CE3C4482294E742D00E28A2D /* IconStateManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconStateManager.swift; sourceTree = "<group>"; };
 		CE3C4483294E742D00E28A2D /* SpringBoardItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpringBoardItem.swift; sourceTree = "<group>"; };
-		CE3C4484294E742D00E28A2D /* GeneralUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneralUtils.swift; sourceTree = "<group>"; };
 		CE3C4485294E742D00E28A2D /* MultiSelectPickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiSelectPickerView.swift; sourceTree = "<group>"; };
-		CE3C4486294E742D00E28A2D /* IconStateValidate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconStateValidate.swift; sourceTree = "<group>"; };
 		CE3C4487294E742E00E28A2D /* AppabeticalApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppabeticalApp.swift; sourceTree = "<group>"; };
 		CE3C4488294E742E00E28A2D /* UIImage+UIImageAverageColorAddition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+UIImageAverageColorAddition.m"; sourceTree = "<group>"; };
 		CE3C448B294E742E00E28A2D /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -50,7 +48,7 @@
 		CE3C4490294E742E00E28A2D /* Alert++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Alert++.swift"; sourceTree = "<group>"; };
 		CE3C4491294E742E00E28A2D /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		CE3C4493294E742F00E28A2D /* Appabetical-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Appabetical-Bridging-Header.h"; sourceTree = "<group>"; };
-		CE3C4494294E742F00E28A2D /* SpringBoardAppUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpringBoardAppUtils.swift; sourceTree = "<group>"; };
+		CE3C4494294E742F00E28A2D /* IconStateItemHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconStateItemHelper.swift; sourceTree = "<group>"; };
 		CE3C4496294E742F00E28A2D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		CE3C44AC294E74F700E28A2D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CE3C44B4294FA15700E28A2D /* entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = entitlements.plist; sourceTree = "<group>"; };
@@ -103,23 +101,18 @@
 				CE3C44B0294E794600E28A2D /* Managers */,
 				CE3C44AE294E76A100E28A2D /* Views */,
 				CE3C44AF294E76AE00E28A2D /* Other */,
-				CE3C4484294E742D00E28A2D /* GeneralUtils.swift */,
-				CE3C4486294E742D00E28A2D /* IconStateValidate.swift */,
-				CE3C4485294E742D00E28A2D /* MultiSelectPickerView.swift */,
-				CE1C572A294FBC28008C992A /* Wrapper */,
+				CE3C4494294E742F00E28A2D /* IconStateItemHelper.swift */,
 				CE3C4495294E742F00E28A2D /* Preview Content */,
-				CE3C4494294E742F00E28A2D /* SpringBoardAppUtils.swift */,
-				CE3C447F294E742D00E28A2D /* UIImage+UIImageAverageColorAddition.h */,
-				CE3C4488294E742E00E28A2D /* UIImage+UIImageAverageColorAddition.m */,
 			);
 			path = Appabetical;
 			sourceTree = "<group>";
 		};
-		CE1C572A294FBC28008C992A /* Wrapper */ = {
+		CE1C572F29508E6E008C992A /* UtilViews */ = {
 			isa = PBXGroup;
 			children = (
+				CE3C4485294E742D00E28A2D /* MultiSelectPickerView.swift */,
 			);
-			path = Wrapper;
+			path = UtilViews;
 			sourceTree = "<group>";
 		};
 		CE3C4480294E742D00E28A2D /* Classes */ = {
@@ -152,6 +145,7 @@
 		CE3C44AE294E76A100E28A2D /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				CE1C572F29508E6E008C992A /* UtilViews */,
 				CE3C448B294E742E00E28A2D /* ContentView.swift */,
 			);
 			path = Views;
@@ -160,8 +154,11 @@
 		CE3C44AF294E76AE00E28A2D /* Other */ = {
 			isa = PBXGroup;
 			children = (
-				CE3C44B9294FA4C100E28A2D /* RemLog */,
+				CE3C447F294E742D00E28A2D /* UIImage+UIImageAverageColorAddition.h */,
+				CE3C4488294E742E00E28A2D /* UIImage+UIImageAverageColorAddition.m */,
+				CE1C572D29508E4B008C992A /* Constants.swift */,
 				CE3C448C294E742E00E28A2D /* Enums.swift */,
+				CE3C44B9294FA4C100E28A2D /* RemLog */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -273,10 +270,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE3C449C294E742F00E28A2D /* IconStateValidate.swift in Sources */,
-				CE3C44A8294E742F00E28A2D /* SpringBoardAppUtils.swift in Sources */,
+				CE1C572E29508E4B008C992A /* Constants.swift in Sources */,
+				CE3C44A8294E742F00E28A2D /* IconStateItemHelper.swift in Sources */,
 				CE3C44A1294E742F00E28A2D /* ContentView.swift in Sources */,
-				CE3C449A294E742F00E28A2D /* GeneralUtils.swift in Sources */,
 				CE3C44A4294E742F00E28A2D /* Respring.swift in Sources */,
 				CE3C449D294E742F00E28A2D /* AppabeticalApp.swift in Sources */,
 				CE3C449E294E742F00E28A2D /* UIImage+UIImageAverageColorAddition.m in Sources */,

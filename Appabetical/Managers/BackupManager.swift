@@ -49,9 +49,7 @@ class BackupManager {
     
     /// Make a backup
     static func makeBackup() throws {
-        if fm.fileExists(atPath: plistUrlBkp.path) {
-            try fm.removeItem(at: plistUrlBkp)
-        }
+        try? fm.removeItem(at: plistUrlBkp)
         try fm.copyItem(at: plistUrl, to: plistUrlBkp)
         // Set modification date to now
         let attributes: [FileAttributeKey : Any] = [.modificationDate: Date()]
