@@ -23,7 +23,7 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             List {
-                Section(header: Text("")) {
+                Section(header: Text("Options")) {
                     NavigationLink(destination: {
                         MultiSelectPickerView(pages: IconStateManager.getPages(), selectedItems: $selectedItems, pageOp: $pageOp).navigationBarTitle("", displayMode: .inline)
                     }, label: {
