@@ -10,23 +10,9 @@ import Foundation
 class BackupManager {
     /// Save a homescreen backup manually
     static func saveLayout() {
-        if fm.fileExists(atPath: savedLayoutUrl.path) {
-            UIApplication.shared.confirmAlert(title: "Confirm Save", body: "This will overwrite your previously saved layout. Would you like to continue?", onOK: {
-                do {
-                    if fm.fileExists(atPath: savedLayoutUrl.path) {
-                        try fm.removeItem(at: savedLayoutUrl)
-                    }
-                    try fm.copyItem(at: plistUrl, to: savedLayoutUrl)
-                    // Set modification date to now
-                    let attributes: [FileAttributeKey : Any] = [.modificationDate: Date()]
-                    try fm.setAttributes(attributes, ofItemAtPath: savedLayoutUrl.path)
-                    UIApplication.shared.alert(title: "Layout Saved", body: "Layout has been saved successfully.")
-                } catch {
-                    UIApplication.shared.alert(body: error.localizedDescription)
-                }
-            }, noCancel: false)
-        } else {
+        func copyAndAlert() {
             do {
+                try? fm.removeItem(at: savedLayoutUrl)
                 try fm.copyItem(at: plistUrl, to: savedLayoutUrl)
                 // Set modification date to now
                 let attributes: [FileAttributeKey : Any] = [.modificationDate: Date()]
@@ -35,6 +21,14 @@ class BackupManager {
             } catch {
                 UIApplication.shared.alert(body: error.localizedDescription)
             }
+        }
+        
+        if fm.fileExists(atPath: savedLayoutUrl.path) {
+            UIApplication.shared.confirmAlert(title: "Confirm Save", body: "This will overwrite your previously saved layout. Would you like to continue?", onOK: {
+                copyAndAlert()
+            }, noCancel: false)
+        } else {
+            copyAndAlert()
         }
     }
     
