@@ -85,20 +85,13 @@ class SpringBoardItem {
     }
     
     convenience init(from item: AnyObject) {
-        func getItemSize(item: [String:Any]) -> ItemSize {
-            if let iconType = item["iconType"] as? String  {
-                if iconType == "custom" {
-                    if let gridSize = item["gridSize"] as? String  {
-                        switch gridSize {
-                        case "small": return .small
-                        case "medium": return .medium
-                        case "large": return .large
-                        default: return .unknown
-                        }
-                    }
-                }
+        func getItemSize(size: String) -> ItemSize {
+            switch size {
+            case "small": return .small
+            case "medium": return .medium
+            case "large": return .large
+            default: return .unknown
             }
-            return .normal
         }
         
         self.init(title: "", bundleID: "", type: .unknown)
@@ -115,7 +108,9 @@ class SpringBoardItem {
                     }
                 } else if iconType == "custom" {
                     // Widget
-                    self.init(title: "", bundleID: "", widgetSize: getItemSize(item: dict), type: .widget)
+                    if let gridSize = item["gridSize"] as? String {
+                        self.init(title: "", bundleID: "", widgetSize: getItemSize(size: gridSize), type: .widget)
+                    }
                 }
             } else if let listType = dict["listType"] as? String {
                 // Folder
