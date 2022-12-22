@@ -1,8 +1,8 @@
-<p align="center">
-  <img align="center" src='https://github.com/Avangelista/Appabetical/blob/main/Docs/icon-rounded.png?raw=true' width=100>
-</p>
 <h1 align="center"> Appabetical </h1>
 <p align="center">Sort your apps A-Z or by color with this simple and customisable app for TrollStore!</p>
+
+![Image](https://user-images.githubusercontent.com/52459150/209237876-c684dbb8-50f1-4af3-94d7-68e0affb5364.png)
+
 
 ## Features
 - Works on any iPhone supporting [TrollStore](https://github.com/opa334/TrollStore)
