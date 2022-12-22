@@ -204,6 +204,7 @@ public class IconStateManager {
     // Options for type of sort to use
     public enum SortOption: Equatable {
         case alphabetically
+        case alphabeticallyReversed
         case color // swift language standart is US English :troll:
     }
     

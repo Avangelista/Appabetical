@@ -35,6 +35,7 @@ struct ContentView: View {
                     })
                     Picker("Ordering", selection: $sortOp) {
                         Text("A-Z").tag(IconStateManager.SortOption.alphabetically)
+                        Text("Z-A").tag(IconStateManager.SortOption.alphabeticallyReversed)
                         Text("Color").tag(IconStateManager.SortOption.color)
                     }.onChange(of: sortOp, perform: {nv in if nv == .color && folderOp == .alongside { folderOp = .separately }})
                     Picker("Pages", selection: $pageOp) {
@@ -43,7 +44,7 @@ struct ContentView: View {
                     }
                     Picker("Folders", selection: $folderOp) {
                         Text("Retain current order").tag(IconStateManager.FolderSortingOption.noSort)
-                        if (sortOp == .alphabetically) {
+                        if (sortOp == .alphabetically || sortOp == .alphabeticallyReversed) {
                             Text("Sort mixed with apps").tag(IconStateManager.FolderSortingOption.alongside)
                         }
                         Text("Sort separate from apps").tag(IconStateManager.FolderSortingOption.separately)

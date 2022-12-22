@@ -40,6 +40,7 @@ struct MultiSelectPickerView: View {
                                 Image(systemName: "checkmark")
                                     .opacity(self.selectedItems.contains(item) ? 1.0 : 0.0)
                                     .foregroundColor(.accentColor)
+                                    .font(.system(.headline))
                             }
                         }
                         .foregroundColor(.primary)

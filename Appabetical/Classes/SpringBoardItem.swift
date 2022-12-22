@@ -10,6 +10,10 @@ import Foundation
 
 class SpringBoardItem {
     func compare(to item2: SpringBoardItem, folderSortingOption: IconStateManager.FolderSortingOption, sortingOption: IconStateManager.SortOption) -> Bool {
+        func compareByTitle() -> Bool {
+            return sortingOption == .alphabeticallyReversed ? item1.title.lowercased() > item2.title.lowercased() : item1.title.lowercased() < item2.title.lowercased()
+        }
+        
         let item1 = self
         
         if item1.type == .widget || item2.type == .widget {
@@ -22,11 +26,11 @@ class SpringBoardItem {
             }
         } else if item1.type == .folder || item2.type == .folder {
             if item1.type == .folder, item2.type == .folder {
-                return folderSortingOption == .noSort ? false : (item1.title.lowercased() < item2.title.lowercased())
+                return folderSortingOption == .noSort ? false : compareByTitle()
             } else if item1.type == .folder {
-                return folderSortingOption == .alongside ? (item1.title.lowercased() < item2.title.lowercased()) : true
+                return folderSortingOption == .alongside ? compareByTitle() : true
             } else if item2.type == .folder {
-                return folderSortingOption == .alongside ? (item1.title.lowercased() < item2.title.lowercased()) : false
+                return folderSortingOption == .alongside ? compareByTitle() : false
             }
         }
         if sortingOption == .color {
@@ -62,7 +66,7 @@ class SpringBoardItem {
                }
            }
         }
-        return item1.title.lowercased() < item2.title.lowercased()
+        return compareByTitle()
     }
     
     private(set) var title: String
