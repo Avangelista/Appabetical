@@ -5,7 +5,7 @@
 //  Created by exerhythm on 17.12.2022.
 //
 
-import Foundation
+import UIKit
 
 extension UIDevice {
     // Respring the device

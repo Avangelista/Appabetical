@@ -24,9 +24,9 @@ class SpringBoardItem {
             if item1.type == .folder, item2.type == .folder {
                 return folderSortingOption == .noSort ? false : (item1.title.lowercased() < item2.title.lowercased())
             } else if item1.type == .folder {
-                return true
+                return folderSortingOption == .alongside ? (item1.title.lowercased() < item2.title.lowercased()) : true
             } else if item2.type == .folder {
-                return false
+                return folderSortingOption == .alongside ? (item1.title.lowercased() < item2.title.lowercased()) : false
             }
         }
         if sortingOption == .color {

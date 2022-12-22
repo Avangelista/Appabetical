@@ -7,7 +7,7 @@
 
 // MARK: cause *THEY SUCK* in SwiftUI :trollface:
 
-import Foundation
+import UIKit
 
 var currentUIAlertController: UIAlertController?
 

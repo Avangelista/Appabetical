@@ -9,20 +9,6 @@ import SwiftUI
 import MobileCoreServices
 
 struct ContentView: View {
-    // Sort the selected pages
-    func sort() {
-        do {
-            // Make sure the user hasn't selected a page, then adjusted their home screen before pressing Sort
-            let pageCount = try IconStateManager.shared.pageCount()
-            selectedItems = selectedItems.filter {$0 - 1 < pageCount }
-            if selectedItems.isEmpty { return }
-            
-            
-        } catch {
-            UIApplication.shared.alert(body: error.localizedDescription)
-        }
-    }
-    
     
     // Settings variables
     @State private var selectedItems = [Int]()
@@ -53,9 +39,7 @@ struct ContentView: View {
                     }.onChange(of: sortOp, perform: {nv in if nv == .color && folderOp == .alongside { folderOp = .separately }})
                     Picker("Pages", selection: $pageOp) {
                         Text("Sort pages independently").tag(IconStateManager.PageSortingOption.individually)
-//                        if IconStateManager.arePagesNeighbouring(pages: selectedItems) {
-                            Text("Sort apps across pages").tag(IconStateManager.PageSortingOption.acrossPages)
-//                        }
+                        Text("Sort apps across pages").tag(IconStateManager.PageSortingOption.acrossPages)
                     }
                     Picker("Folders", selection: $folderOp) {
                         Text("Retain current order").tag(IconStateManager.FolderSortingOption.noSort)
@@ -106,43 +90,48 @@ struct ContentView: View {
                                 .frame(width: 20, height: 20)
                         }
                     }
+                    
                 }
         }
     }
     
+    
+    // Sort the selected pages
     func sortPage() {
+        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
         do {
+            let pageCount = try IconStateManager.shared.pageCount()
+            selectedItems = selectedItems.filter {$0 - 1 < pageCount }
+            if selectedItems.isEmpty { return }
+            
             try IconStateManager.shared.sortPages(selectedPages: selectedItems, sortOption: sortOp, pageSortingOption: pageOp, folderSortingOption: folderOp)
             UIDevice.current.respring()
-        } catch {
-            UIApplication.shared.alert(body: error.localizedDescription)
-        }
+        } catch {  UIApplication.shared.alert(body: error.localizedDescription) }
     }
     
     func saveLayout() {
         BackupManager.saveLayout()
+        UINotificationFeedbackGenerator().notificationOccurred(.success)
     }
     
     
     func restoreBackup() {
+        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
         UIApplication.shared.confirmAlert(title: "Confirm Restore", body: "This layout was saved on \(BackupManager.getTimeSaved(url: savedLayoutUrl) ?? "(unknown date)"). Be mindful if you've added any apps, widgets or folders since then as they may appear incorrectly. Would you like to continue?", onOK: {
             do {
                 try BackupManager.restoreBackup()
                 UIDevice.current.respring()
-            } catch {
-                UIApplication.shared.alert(body: error.localizedDescription)
-            }
+            } catch {  UIApplication.shared.alert(body: error.localizedDescription) }
         })
     }
     
     func restoreLayout() {
+        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
         UIApplication.shared.confirmAlert(title: "Confirm Undo", body: "This layout was saved on \(BackupManager.getTimeSaved(url: plistUrlBkp) ?? "(unknown date)"). Be mindful if you've added/removed any apps, widgets or folders since then as they may appear incorrectly. Would you like to continue?", onOK: {
             do {
                 try BackupManager.restoreLayout()
                 UIDevice.current.respring()
-            } catch {
-                UIApplication.shared.alert(body: error.localizedDescription)
-            }
+            } catch {  UIApplication.shared.alert(body: error.localizedDescription) }
         })
     }
 }

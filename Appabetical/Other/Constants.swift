@@ -8,7 +8,7 @@
 import Foundation
 
 #if targetEnvironment(simulator)
-fileprivate let iconStatePath = "/Users/exerhythm/Library/Developer/CoreSimulator/Devices/B824138D-0069-41B9-9793-BB1B8A59CCD5/data/Library/SpringBoard/IconState.plist"
+fileprivate let iconStatePath = "/Users/sourcelocation/Library/Developer/CoreSimulator/Devices/0422C1BF-85A0-4C08-923A-1929E5EC48B7/data/Library/SpringBoard/IconState.plist"
 #else
 fileprivate let iconStatePath = "/var/mobile/Library/SpringBoard/IconState.plist"
 #endif
