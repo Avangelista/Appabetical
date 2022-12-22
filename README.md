@@ -1,8 +1,8 @@
-<div style="display: flex; flex-direction: column; align-items:center; row-gap: 10px;">
-  <img height="100" width="100" src="https://github.com/Avangelista/Appabetical/blob/main/Docs/icon-rounded.png?raw=true" alt="Icon">
-  <span style="font-size: 20pt; font-weight: bold; padding-bottom: 10px">Appabetical</span>
-  <span>Sort your apps A-Z or by color with this simple and customisable app for Trollstore!</span>
-</div>
+<p align="center">
+  <img align="center" src='https://github.com/Avangelista/Appabetical/blob/main/Docs/icon-rounded.png?raw=true' width=100>
+</p>
+<h1 align="center"> Appabetical </h1>
+<p align="center">Sort your apps A-Z or by color with this simple and customisable app for TrollStore!</p>
 
 Features:
 
