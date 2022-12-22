@@ -6,6 +6,7 @@
 
 ## Features
 - Works on any iPhone supporting [TrollStore](https://github.com/opa334/TrollStore)
+- Sort apps A-Z, Z-A, or by color
 - Supports sorting for all types of icons, even ones themed with TrollTools
 - Choose only the pages you want to sort
 - Sort pages independently or all together
