@@ -133,7 +133,7 @@ public class IconStateManager {
             for (index, page) in listUniqueIdentifiers.enumerated() {
                 for (key, value) in listMetadata {
                     if key == page && value.keys.contains("hiddenDate") {
-                        hiddenPages.append(index + 1)
+                        hiddenPages.append(index)
                     }
                 }
             }
