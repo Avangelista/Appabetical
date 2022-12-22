@@ -22,17 +22,16 @@ struct AppabeticalApp: App {
         WindowGroup {
             ContentView()
             .onAppear {
-                if !isiPad() {
-                    checkNewVersions()
-                } else {
+                checkNewVersions()
+                if isiPad() {
                     UIApplication.shared.alert(title: "Warning", body: "Appabetical does not support iPad yet! Please do not use the app as there may be unexpected side effects.")
                 }
             }
-            .onAppear {
-                UsageTrackingWrapper.shared.getAppUsages(completion: { usages, error  in
-                    remLog("USAGES", usages)
-                })
-            }
+//            .onAppear {
+//                UsageTrackingWrapper.shared.getAppUsages(completion: { usages, error  in
+//                    remLog("USAGES", usages)
+//                })
+//            }
         }
     }
     
