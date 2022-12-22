@@ -17,7 +17,6 @@
 		CE3C449D294E742F00E28A2D /* AppabeticalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3C4487294E742E00E28A2D /* AppabeticalApp.swift */; };
 		CE3C449E294E742F00E28A2D /* UIImage+UIImageAverageColorAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = CE3C4488294E742E00E28A2D /* UIImage+UIImageAverageColorAddition.m */; };
 		CE3C44A1294E742F00E28A2D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3C448B294E742E00E28A2D /* ContentView.swift */; };
-		CE3C44A2294E742F00E28A2D /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3C448C294E742E00E28A2D /* Enums.swift */; };
 		CE3C44A3294E742F00E28A2D /* Color++.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3C448E294E742E00E28A2D /* Color++.swift */; };
 		CE3C44A4294E742F00E28A2D /* Respring.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3C448F294E742E00E28A2D /* Respring.swift */; };
 		CE3C44A5294E742F00E28A2D /* Alert++.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3C4490294E742E00E28A2D /* Alert++.swift */; };
@@ -44,7 +43,6 @@
 		CE3C4487294E742E00E28A2D /* AppabeticalApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppabeticalApp.swift; sourceTree = "<group>"; };
 		CE3C4488294E742E00E28A2D /* UIImage+UIImageAverageColorAddition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+UIImageAverageColorAddition.m"; sourceTree = "<group>"; };
 		CE3C448B294E742E00E28A2D /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		CE3C448C294E742E00E28A2D /* Enums.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
 		CE3C448E294E742E00E28A2D /* Color++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Color++.swift"; sourceTree = "<group>"; };
 		CE3C448F294E742E00E28A2D /* Respring.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Respring.swift; sourceTree = "<group>"; };
 		CE3C4490294E742E00E28A2D /* Alert++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Alert++.swift"; sourceTree = "<group>"; };
@@ -167,7 +165,6 @@
 				CE3C447F294E742D00E28A2D /* UIImage+UIImageAverageColorAddition.h */,
 				CE3C4488294E742E00E28A2D /* UIImage+UIImageAverageColorAddition.m */,
 				CE1C572D29508E4B008C992A /* Constants.swift */,
-				CE3C448C294E742E00E28A2D /* Enums.swift */,
 				CE3C44B9294FA4C100E28A2D /* RemLog */,
 			);
 			path = Other;
@@ -293,7 +290,6 @@
 				CE3C44A5294E742F00E28A2D /* Alert++.swift in Sources */,
 				CE3C4499294E742F00E28A2D /* SpringBoardItem.swift in Sources */,
 				CE3C4498294E742F00E28A2D /* IconStateManager.swift in Sources */,
-				CE3C44A2294E742F00E28A2D /* Enums.swift in Sources */,
 				CE3C44A6294E742F00E28A2D /* String.swift in Sources */,
 				21E58823295472D90064A428 /* UsageTrackingWrapper.swift in Sources */,
 				CE3C4497294E742F00E28A2D /* BackupManager.swift in Sources */,

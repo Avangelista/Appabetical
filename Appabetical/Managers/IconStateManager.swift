@@ -11,24 +11,6 @@ public class IconStateManager {
     
     static var shared = IconStateManager()
     
-    public enum PageSortingOption {
-        case individually
-        case acrossPages
-    }
-    
-    // Options for sorting folders
-    public enum FolderSortingOption {
-        case noSort
-        case alongside
-        case separately
-    }
-    
-    // Options for type of sort to use
-    public enum SortOption: Equatable {
-        case alphabetically
-        case color // swift language standart is US English :troll:
-    }
-    
     public func pageCount() throws -> Int {
         guard let plist = NSDictionary(contentsOf: plistUrl) as? [String:AnyObject] else { throw "no iconstate" }
         guard let iconLists = plist["iconLists"] as? [[AnyObject]] else { throw "no iconlists?" }
@@ -205,5 +187,28 @@ public class IconStateManager {
             }
         }
     }
-
+    
+    
+    public enum PageSortingOption {
+        case individually
+        case acrossPages
+    }
+    
+    // Options for sorting folders
+    public enum FolderSortingOption {
+        case noSort
+        case alongside
+        case separately
+    }
+    
+    // Options for type of sort to use
+    public enum SortOption: Equatable {
+        case alphabetically
+        case color // swift language standart is US English :troll:
+    }
+    
+    
+    enum WidgetOptions {
+        case top
+    }
 }
