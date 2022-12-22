@@ -29,17 +29,9 @@ struct AppabeticalApp: App {
                 }
             }
             .onAppear {
-                Bundle(url: URL(fileURLWithPath: "/System/Library/PrivateFrameworks/UsageTracking.framework"))?.load()
-                print("ok")
-                remLog("start")
-                Dynamic.USUsageReporter().fetchReportsDuringInterval(
-                    DateInterval(start: Date().addingTimeInterval(-3600), end: Date()),
-                    partitionInterval: TimeInterval(3600 * 1),
-                    forceImmediateSync: false,
-                    completionHandler: { (localUsageReports,usageReportsByDeviceIdentifier, aggregateUsageReports, error) in
-                        remLog("received", localUsageReports, "usageReportsByDeviceIdentifier", usageReportsByDeviceIdentifier, "aggregateUsageReports", aggregateUsageReports, "error", error)
-                    } as UsageReportCompletionBlock
-                )
+                UsageTrackingWrapper.shared.getAppUsages(completion: { usages, error  in
+                    remLog("USAGES", usages)
+                })
             }
         }
     }

@@ -23,7 +23,7 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             List {
-                Section {
+                Section(header: Text("")) {
                     NavigationLink(destination: {
                         MultiSelectPickerView(pages: IconStateManager.getPages(), selectedItems: $selectedItems, pageOp: $pageOp).navigationBarTitle("", displayMode: .inline)
                     }, label: {
@@ -55,7 +55,7 @@ struct ContentView: View {
                         sortPage()
                     }.disabled(selectedItems.isEmpty)
                 }
-                Section (footer: fm.fileExists(atPath: savedLayoutUrl.path) ? Text("The previously saved layout will be overwritten.") : Text("It is recommended you save your current layout before experimenting as only one undo is possible.")) {
+                Section(footer: Text((fm.fileExists(atPath: savedLayoutUrl.path) ?  "The previously saved layout will be overwritten." : "It is recommended you save your current layout before experimenting as only one undo is possible." ) + "\n\nVersion \(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "pirate version bozo®")")) {
                     Button("Undo Last Sort") {
                         restoreBackup()
                     }.disabled(!fm.fileExists(atPath: plistUrlBkp.path))
@@ -66,32 +66,70 @@ struct ContentView: View {
                         saveLayout()
                     }
                 }
-            }.navigationTitle("Appabetical")
-                .toolbar {
-                    // Credit to SourceLocation
-                    // https://github.com/sourcelocation/AirTroller/blob/main/AirTroller/ContentView.swift
-                    ToolbarItemGroup(placement: .navigationBarTrailing) {
-                        Button(action: {
+            }
+            .navigationTitle("Appabetical")
+            .toolbar {
+                // Credit to SourceLocation
+                // https://github.com/sourcelocation/AirTroller/blob/main/AirTroller/ContentView.swift
+                ToolbarItemGroup(placement: .navigationBarTrailing) {
+                    Button(action: {
+                        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                        openURL(URL(string: "https://discord.gg/VyVcNjRMeg")!)
+                    }) {
+                        Image("discord")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 24, height: 24)
+                    }
+                    Menu {
+                        Button {
                             UIImpactFeedbackGenerator(style: .light).impactOccurred()
                             openURL(URL(string: "https://github.com/Avangelista/Appabetical")!)
-                        }) {
-                            Image("github")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 24, height: 24)
+                        } label: {
+                            Label("Source Code", systemImage: "shippingbox")
                         }
-                        Button(action: {
+                        Button {
+                            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                            openURL(URL(string: "https://github.com/Avangelista")!)
+                        } label: {
+                            Label("Avangelista", systemImage: "person")
+                        }
+                        Button {
+                            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                            openURL(URL(string: "https://github.com/sourcelocation")!)
+                        } label: {
+                            Label("sourcelocation", systemImage: "person")
+                        }
+                    } label: {
+                        Image("github")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 20, height: 20)
+                            .foregroundColor(.blue)
+                    }
+                    Menu {
+                        Button {
                             UIImpactFeedbackGenerator(style: .light).impactOccurred()
                             openURL(URL(string: "https://ko-fi.com/avangelista")!)
-                        }) {
-                            Image(systemName: "heart.fill")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 20, height: 20)
+                        } label: {
+                            Label("Avangelista", systemImage: "1.circle")
                         }
+                        
+                        Button {
+                            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                            openURL(URL(string: "https://ko-fi.com/sourcelocation")!)
+                        } label: {
+                            Label("sourcelocation", systemImage: "2.circle")
+                        }
+                    } label: {
+                        Image(systemName: "heart.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 20, height: 20)
+                            .foregroundColor(.blue)
                     }
-                    
                 }
+            }
         }
     }
     

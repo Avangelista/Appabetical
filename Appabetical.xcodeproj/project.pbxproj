@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		21E58823295472D90064A428 /* UsageTrackingWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E58822295472D90064A428 /* UsageTrackingWrapper.swift */; };
 		25787CB629471C82002BA871 /* AssetCatalogWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 25787CB529471C82002BA871 /* AssetCatalogWrapper */; };
 		CE1C572E29508E4B008C992A /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1C572D29508E4B008C992A /* Constants.swift */; };
 		CE3C4497294E742F00E28A2D /* BackupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3C4481294E742D00E28A2D /* BackupManager.swift */; };
@@ -32,6 +33,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		21E58822295472D90064A428 /* UsageTrackingWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageTrackingWrapper.swift; sourceTree = "<group>"; };
 		25A3C7BD293D66430061A435 /* Appabetical.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Appabetical.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE1C572D29508E4B008C992A /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		CE3C447F294E742D00E28A2D /* UIImage+UIImageAverageColorAddition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+UIImageAverageColorAddition.h"; sourceTree = "<group>"; };
@@ -71,6 +73,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		21E58821295472B50064A428 /* Wrappers */ = {
+			isa = PBXGroup;
+			children = (
+				21E58822295472D90064A428 /* UsageTrackingWrapper.swift */,
+			);
+			path = Wrappers;
+			sourceTree = "<group>";
+		};
 		25A3C7B4293D66430061A435 = {
 			isa = PBXGroup;
 			children = (
@@ -101,7 +111,7 @@
 				CE3C44B0294E794600E28A2D /* Managers */,
 				CE3C44AE294E76A100E28A2D /* Views */,
 				CE3C44AF294E76AE00E28A2D /* Other */,
-				CE3C4494294E742F00E28A2D /* IconStateItemHelper.swift */,
+				21E58821295472B50064A428 /* Wrappers */,
 				CE3C4495294E742F00E28A2D /* Preview Content */,
 			);
 			path = Appabetical;
@@ -166,6 +176,7 @@
 		CE3C44B0294E794600E28A2D /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				CE3C4494294E742F00E28A2D /* IconStateItemHelper.swift */,
 				CE3C4481294E742D00E28A2D /* BackupManager.swift */,
 				CE3C4482294E742D00E28A2D /* IconStateManager.swift */,
 			);
@@ -284,6 +295,7 @@
 				CE3C4498294E742F00E28A2D /* IconStateManager.swift in Sources */,
 				CE3C44A2294E742F00E28A2D /* Enums.swift in Sources */,
 				CE3C44A6294E742F00E28A2D /* String.swift in Sources */,
+				21E58823295472D90064A428 /* UsageTrackingWrapper.swift in Sources */,
 				CE3C4497294E742F00E28A2D /* BackupManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
