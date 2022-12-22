@@ -7,9 +7,10 @@
 
 import Foundation
 import AssetCatalogWrapper
+import ApplicationsWrapper
 
-class AppUtils {
-    static let shared = AppUtils()
+class IconStateItemHelper {
+    static let shared = IconStateItemHelper()
     private init() {
         fm = FileManager.default
         idToName = [:]
@@ -20,11 +21,11 @@ class AppUtils {
         for app in apps {
             // Get name
             let name = app.localizedName()
-            idToName[app.applicationIdentifier] = name
+            idToName[app.applicationIdentifier()] = name
             
             // Get bundle
-            let bundleUrl = app.bundleURL
-            idToBundle[app.applicationIdentifier] = bundleUrl
+            let bundleUrl = app.bundleURL()
+            idToBundle[app.applicationIdentifier()] = bundleUrl
         }
     }
 
