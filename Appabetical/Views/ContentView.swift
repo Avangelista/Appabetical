@@ -30,7 +30,7 @@ struct ContentView: View {
                         HStack {
                             Text("Select Pages")
                             Spacer()
-                            Text(selectedItems.map { String($0 + 1) }.joined(separator: ", ")).foregroundColor(.secondary)
+                            Text(selectedItems.isEmpty ? "None" : selectedItems.map { String($0 + 1) }.joined(separator: ", ")).foregroundColor(.secondary)
                         }
                     })
                     Picker("Ordering", selection: $sortOp) {
