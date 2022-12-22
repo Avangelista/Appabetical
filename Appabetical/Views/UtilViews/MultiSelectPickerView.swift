@@ -13,35 +13,34 @@ import SwiftUI
 struct MultiSelectPickerView: View {
     @State var pages: (Int, [Int])
     @Binding var selectedItems: [Int]
-    @Binding var pageOp: PageOptions
+    @Binding var pageOp: IconStateManager.PageSortingOption
  
     var body: some View {
         Form {
             List {
                 let (numPages, hiddenPages) = pages
                 Section(header: Text("Pages"), footer: hiddenPages.isEmpty ? Text("") : Text("All hidden pages will be unhidden.")) {
-                    ForEach(1...numPages, id: \.self) { item in
+                    ForEach(0...numPages - 1, id: \.self) { item in
                         Button(action: {
-                            withAnimation {
-                                if self.selectedItems.contains(item) {
-                                    self.selectedItems.removeAll(where: { $0 == item })
-                                } else {
-                                    self.selectedItems.append(item)
-                                }
-                                self.selectedItems.sort()
-                                if !areNeighbouring(pages: self.selectedItems) {
-                                    self.pageOp = PageOptions.individually // bug here
-                                }
+                            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                            
+                            if self.selectedItems.contains(item) {
+                                self.selectedItems.removeAll(where: { $0 == item })
+                            } else {
+                                self.selectedItems.append(item)
+                            }
+                            self.selectedItems.sort()
+                            if !IconStateManager.arePagesNeighbouring(pages: self.selectedItems) {
+                                self.pageOp = IconStateManager.PageSortingOption.individually // bug here
                             }
                         }) {
                             HStack {
+                                Text("Page \(String(item + 1))\(hiddenPages.contains(item) ? " (hidden)" : "")")
+                                Spacer()
                                 Image(systemName: "checkmark")
                                     .opacity(self.selectedItems.contains(item) ? 1.0 : 0.0)
-                                if hiddenPages.contains(item) {
-                                    Text("Page \(String(item)) (hidden)")
-                                } else {
-                                    Text("Page \(String(item))")
-                                }
+                                    .foregroundColor(.accentColor)
+                                    .font(.system(.headline))
                             }
                         }
                         .foregroundColor(.primary)

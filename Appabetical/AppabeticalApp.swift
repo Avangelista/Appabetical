@@ -6,6 +6,15 @@
 //
 
 import SwiftUI
+import Dynamic
+
+
+typealias UsageReportCompletionBlock = @convention(block) (
+    _ localUsageReports: NSArray?,
+    _ usageReportsByDeviceIdentifier: NSDictionary?,
+    _ aggregateUsageReports: NSArray?,
+    _ error: NSError?) -> Void
+
 
 @main
 struct AppabeticalApp: App {
@@ -13,14 +22,20 @@ struct AppabeticalApp: App {
         WindowGroup {
             ContentView()
             .onAppear {
-                if (notAniPad()) {
-                    checkNewVersions()
+                checkNewVersions()
+                if isiPad() {
+                    UIApplication.shared.alert(title: "Warning", body: "Appabetical does not support iPad yet! Please do not use the app as there may be unexpected side effects.")
                 }
             }
+//            .onAppear {
+//                UsageTrackingWrapper.shared.getAppUsages(completion: { usages, error  in
+//                    remLog("USAGES", usages)
+//                })
+//            }
         }
     }
     
-    func notAniPad() -> Bool {
+    func isiPad() -> Bool {
         var systemInfo = utsname()
         uname(&systemInfo)
         let machineMirror = Mirror(reflecting: systemInfo.machine)
@@ -28,11 +43,7 @@ struct AppabeticalApp: App {
             guard let value = element.value as? Int8, value != 0 else { return identifier }
             return identifier + String(UnicodeScalar(UInt8(value)))
         }
-        if identifier.contains("iPad") {
-            UIApplication.shared.alert(title: "Warning", body: "Appabetical does not support iPad yet! Please do not use the app as there may be unexpected side effects.")
-            return false
-        }
-        return true
+        return identifier.contains("iPad")
     }
     
     // Credit to SourceLocation
