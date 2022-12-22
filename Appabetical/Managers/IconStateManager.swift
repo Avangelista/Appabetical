@@ -102,10 +102,12 @@ public class IconStateManager {
         (plist as NSDictionary).write(to: plistUrlNew, atomically: true)
 
         do {
-            try validateIconState(old: plistUrl, new: plistUrlNew)
-            let _ = try fm.replaceItemAt(plistUrl, withItemAt: plistUrlNew)
+            if try validateIconState(old: plistUrl, new: plistUrlNew) {
+                let _ = try fm.replaceItemAt(plistUrl, withItemAt: plistUrlNew)
+                UIDevice.current.respring()
+            }
         } catch {
-            UIApplication.shared.alert(body: "New IconState appears to be invalid. Sorting has been aborted, and no system files have been edited. Specific error: \(error.localizedDescription). Please screenshot and report.")
+            throw "New IconState appears to be invalid. Sorting has been aborted, and no system files have been edited. Specific error: \(error.localizedDescription). Please screenshot and report."
         }
     }
     
@@ -139,8 +141,7 @@ public class IconStateManager {
         return (iconLists.count, hiddenPages)
     }
 
-    
-    private func validateIconState(old: URL, new: URL) throws {
+    private func validateIconState(old: URL, new: URL) throws -> Bool {
         guard let oldState = NSDictionary(contentsOf: old) as? [String : NSObject] else { throw "Could not read \(old.lastPathComponent) in expected format" }
         guard let newState = NSDictionary(contentsOf: new) as? [String : NSObject] else { throw "Could not read \(new.lastPathComponent) in expected format" }
         
@@ -186,6 +187,7 @@ public class IconStateManager {
                 throw "Additional key \(key) erroneously present in \(new.lastPathComponent)"
             }
         }
+        return true
     }
     
     

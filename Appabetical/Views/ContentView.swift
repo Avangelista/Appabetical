@@ -142,7 +142,6 @@ struct ContentView: View {
             if selectedItems.isEmpty { return }
             
             try IconStateManager.shared.sortPages(selectedPages: selectedItems, sortOption: sortOp, pageSortingOption: pageOp, folderSortingOption: folderOp)
-            UIDevice.current.respring()
         } catch {  UIApplication.shared.alert(body: error.localizedDescription) }
     }
     
