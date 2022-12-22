@@ -106,7 +106,6 @@ struct ContentView: View {
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 20, height: 20)
-                            .foregroundColor(.blue)
                     }
                     Menu {
                         Button {
@@ -127,7 +126,6 @@ struct ContentView: View {
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 20, height: 20)
-                            .foregroundColor(.blue)
                     }
                 }
             }
