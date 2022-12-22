@@ -21,6 +21,10 @@ A ⭐️ on the repo would be very much appreciated :))
 
 Brought to you with ❤️ by [Avangelista](https://github.com/Avangelista) and [sourcelocation](https://github.com/sourcelocation).
 
+If you would like to donate for our hard work:
+- [Donate to Avangelista](https://ko-fi.com/avangelista)
+- [Donate to sourcelocation](https://ko-fi.com/sourcelocation)
+
 ## Disclaimer
 Appabetical was written with the safety of your device in mind. When the sorting algorithm is run, any potential system changes are stored in a temporary file. This temporary file is then run through a rigorous verification process to ensure the only differences from the original file are those relating to icon positions, and that every other aspect of the file is identical. If and only if this check passes will Appabetical swap out the system file. Any issue or slight difference between the files and the process is aborted, with no modifications made. Whilst these failsafes are in place, I cannot take any responsibility for any issues you encounter while using the app.
 
