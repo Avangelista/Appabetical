@@ -15,7 +15,7 @@ struct ContentView: View {
     @State private var pageOp = IconStateManager.PageSortingOption.individually
     @State private var folderOp = IconStateManager.FolderSortingOption.noSort
     @State private var sortOp = IconStateManager.SortOption.alphabetically
-    @State private var widgetOp = WidgetOptions.top
+    @State private var widgetOp = IconStateManager.WidgetOptions.top
     
     @Environment(\.openURL) var openURL
     
@@ -49,7 +49,7 @@ struct ContentView: View {
                         Text("Sort separate from apps").tag(IconStateManager.FolderSortingOption.separately)
                     }
                     Picker("Widgets", selection: $widgetOp) {
-                        Text("Move to top").tag(WidgetOptions.top)
+                        Text("Move to top").tag(IconStateManager.WidgetOptions.top)
                     }
                     Button("Sort Apps") {
                         sortPage()
@@ -152,10 +152,9 @@ struct ContentView: View {
         UINotificationFeedbackGenerator().notificationOccurred(.success)
     }
     
-    
     func restoreBackup() {
         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-        UIApplication.shared.confirmAlert(title: "Confirm Restore", body: "This layout was saved on \(BackupManager.getTimeSaved(url: savedLayoutUrl) ?? "(unknown date)"). Be mindful if you've added any apps, widgets or folders since then as they may appear incorrectly. Would you like to continue?", onOK: {
+        UIApplication.shared.confirmAlert(title: "Confirm Undo", body: "This layout was saved on \(BackupManager.getTimeSaved(url: plistUrlBkp) ?? "(unknown date)"). Be mindful if you've added any apps, widgets or folders since then as they may appear incorrectly. Would you like to continue?", onOK: {
             do {
                 try BackupManager.restoreBackup()
                 UIDevice.current.respring()
@@ -165,7 +164,7 @@ struct ContentView: View {
     
     func restoreLayout() {
         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-        UIApplication.shared.confirmAlert(title: "Confirm Undo", body: "This layout was saved on \(BackupManager.getTimeSaved(url: plistUrlBkp) ?? "(unknown date)"). Be mindful if you've added/removed any apps, widgets or folders since then as they may appear incorrectly. Would you like to continue?", onOK: {
+        UIApplication.shared.confirmAlert(title: "Confirm Restore", body: "This layout was saved on \(BackupManager.getTimeSaved(url: savedLayoutUrl) ?? "(unknown date)"). Be mindful if you've added/removed any apps, widgets or folders since then as they may appear incorrectly. Would you like to continue?", onOK: {
             do {
                 try BackupManager.restoreLayout()
                 UIDevice.current.respring()

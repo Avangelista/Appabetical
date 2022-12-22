@@ -28,9 +28,9 @@ extension UIApplication {
         DispatchQueue.main.async {
             currentUIAlertController = UIAlertController(title: title, message: body, preferredStyle: .alert)
             if !noCancel {
-                currentUIAlertController?.addAction(.init(title: "Cancel", style: .cancel))
+                currentUIAlertController?.addAction(.init(title: "No", style: .cancel))
             }
-            currentUIAlertController?.addAction(.init(title: "OK", style: noCancel ? .cancel : .default, handler: { _ in
+            currentUIAlertController?.addAction(.init(title: "Yes", style: noCancel ? .cancel : .default, handler: { _ in
                 onOK()
             }))
             self.present(alert: currentUIAlertController!)
