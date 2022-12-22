@@ -15,7 +15,7 @@ struct ContentView: View {
     @State private var pageOp = IconStateManager.PageSortingOption.individually
     @State private var folderOp = IconStateManager.FolderSortingOption.noSort
     @State private var sortOp = IconStateManager.SortOption.alphabetically
-    @State private var widgetOp = WidgetOptions.top
+    @State private var widgetOp = IconStateManager.WidgetOptions.top
     
     @Environment(\.openURL) var openURL
     
@@ -49,7 +49,7 @@ struct ContentView: View {
                         Text("Sort separate from apps").tag(IconStateManager.FolderSortingOption.separately)
                     }
                     Picker("Widgets", selection: $widgetOp) {
-                        Text("Move to top").tag(WidgetOptions.top)
+                        Text("Move to top").tag(IconStateManager.WidgetOptions.top)
                     }
                     Button("Sort Apps") {
                         sortPage()
