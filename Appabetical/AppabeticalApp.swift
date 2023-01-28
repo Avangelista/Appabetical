@@ -59,7 +59,7 @@ struct AppabeticalApp: App {
             } catch {
                 // MDC method
                 grant_full_disk_access() { error in
-                    if error {
+                    if (error != nil) {
                         UIApplication.shared.alert(title: "Access Error", body: "Error: \(String(describing: error?.localizedDescription))\nPlease close the app and retry.")
                     }
                 }
