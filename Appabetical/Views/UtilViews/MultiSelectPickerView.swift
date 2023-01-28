@@ -22,8 +22,6 @@ struct MultiSelectPickerView: View {
                 Section(header: Text("Pages"), footer: hiddenPages.isEmpty ? Text("") : Text("All hidden pages will be unhidden.")) {
                     ForEach(0...numPages - 1, id: \.self) { item in
                         Button(action: {
-                            UIImpactFeedbackGenerator(style: .light).impactOccurred()
-                            
                             if self.selectedItems.contains(item) {
                                 self.selectedItems.removeAll(where: { $0 == item })
                             } else {

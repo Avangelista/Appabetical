@@ -26,8 +26,8 @@ class IconStateItemHelper {
                 dotAppDirs += systemAppsDir
                 let userAppsDir = try fm.contentsOfDirectory(at: userApplicationsUrl, includingPropertiesForKeys: nil)
                 for userAppFolder in userAppsDir {
-                    let appBundleContents = try fm.contentsOfDirectory(at: userAppFolder, includingPropertiesForKeys: nil)
-                    if let dotApp = appBundleContents.first(where: { $0.absoluteString.hasSuffix(".app/") }) {
+                    let userAppFolderContents = try fm.contentsOfDirectory(at: userAppFolder, includingPropertiesForKeys: nil)
+                    if let dotApp = userAppFolderContents.first(where: { $0.absoluteString.hasSuffix(".app/") }) {
                         dotAppDirs.append(dotApp)
                     }
                 }

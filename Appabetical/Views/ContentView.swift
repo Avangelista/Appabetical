@@ -138,7 +138,6 @@ struct ContentView: View {
     
     // Sort the selected pages
     func sortPage() {
-        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
         do {
             let pageCount = try IconStateManager.shared.pageCount()
             selectedItems = selectedItems.filter {$0 - 1 < pageCount }
@@ -150,11 +149,9 @@ struct ContentView: View {
     
     func saveLayout() {
         BackupManager.saveLayout()
-        UINotificationFeedbackGenerator().notificationOccurred(.success)
     }
     
     func restoreBackup() {
-        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
         UIApplication.shared.confirmAlert(title: "Confirm Undo", body: "This layout was saved on \(BackupManager.getTimeSaved(url: plistUrlBkp) ?? "(unknown date)"). Be mindful if you've added/removed any apps, widgets or folders since then as they may appear incorrectly. Would you like to continue?", onOK: {
             do {
                 try BackupManager.restoreBackup()
@@ -164,7 +161,6 @@ struct ContentView: View {
     }
     
     func restoreLayout() {
-        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
         UIApplication.shared.confirmAlert(title: "Confirm Restore", body: "This layout was saved on \(BackupManager.getTimeSaved(url: savedLayoutUrl) ?? "(unknown date)"). Be mindful if you've added/removed any apps, widgets or folders since then as they may appear incorrectly. Would you like to continue?", onOK: {
             do {
                 try BackupManager.restoreLayout()
