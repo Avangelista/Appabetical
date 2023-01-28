@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		21E58823295472D90064A428 /* UsageTrackingWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E58822295472D90064A428 /* UsageTrackingWrapper.swift */; };
+		2522F0D62984D54D00B1CC2F /* helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 2522F0D22984D54D00B1CC2F /* helpers.m */; };
+		2522F0D72984D54D00B1CC2F /* grant_full_disk_access.m in Sources */ = {isa = PBXBuildFile; fileRef = 2522F0D32984D54D00B1CC2F /* grant_full_disk_access.m */; };
+		2522F0D82984D54D00B1CC2F /* vm_unaligned_copy_switch_race.c in Sources */ = {isa = PBXBuildFile; fileRef = 2522F0D42984D54D00B1CC2F /* vm_unaligned_copy_switch_race.c */; };
 		25787CB629471C82002BA871 /* AssetCatalogWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 25787CB529471C82002BA871 /* AssetCatalogWrapper */; };
 		CE1C572E29508E4B008C992A /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1C572D29508E4B008C992A /* Constants.swift */; };
 		CE3C4497294E742F00E28A2D /* BackupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3C4481294E742D00E28A2D /* BackupManager.swift */; };
@@ -33,6 +36,12 @@
 
 /* Begin PBXFileReference section */
 		21E58822295472D90064A428 /* UsageTrackingWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageTrackingWrapper.swift; sourceTree = "<group>"; };
+		2522F0D02984D54D00B1CC2F /* helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = helpers.h; sourceTree = "<group>"; };
+		2522F0D12984D54D00B1CC2F /* grant_full_disk_access.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = grant_full_disk_access.h; sourceTree = "<group>"; };
+		2522F0D22984D54D00B1CC2F /* helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = helpers.m; sourceTree = "<group>"; };
+		2522F0D32984D54D00B1CC2F /* grant_full_disk_access.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = grant_full_disk_access.m; sourceTree = "<group>"; };
+		2522F0D42984D54D00B1CC2F /* vm_unaligned_copy_switch_race.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vm_unaligned_copy_switch_race.c; sourceTree = "<group>"; };
+		2522F0D52984D54D00B1CC2F /* vm_unaligned_copy_switch_race.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vm_unaligned_copy_switch_race.h; sourceTree = "<group>"; };
 		25A3C7BD293D66430061A435 /* Appabetical.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Appabetical.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE1C572D29508E4B008C992A /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		CE3C447F294E742D00E28A2D /* UIImage+UIImageAverageColorAddition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+UIImageAverageColorAddition.h"; sourceTree = "<group>"; };
@@ -79,6 +88,19 @@
 			path = Wrappers;
 			sourceTree = "<group>";
 		};
+		2522F0CF2984D54000B1CC2F /* Exploits */ = {
+			isa = PBXGroup;
+			children = (
+				2522F0D12984D54D00B1CC2F /* grant_full_disk_access.h */,
+				2522F0D32984D54D00B1CC2F /* grant_full_disk_access.m */,
+				2522F0D02984D54D00B1CC2F /* helpers.h */,
+				2522F0D22984D54D00B1CC2F /* helpers.m */,
+				2522F0D42984D54D00B1CC2F /* vm_unaligned_copy_switch_race.c */,
+				2522F0D52984D54D00B1CC2F /* vm_unaligned_copy_switch_race.h */,
+			);
+			path = Exploits;
+			sourceTree = "<group>";
+		};
 		25A3C7B4293D66430061A435 = {
 			isa = PBXGroup;
 			children = (
@@ -101,6 +123,7 @@
 		25A3C7BF293D66430061A435 /* Appabetical */ = {
 			isa = PBXGroup;
 			children = (
+				2522F0CF2984D54000B1CC2F /* Exploits */,
 				CE3C4487294E742E00E28A2D /* AppabeticalApp.swift */,
 				CE3C4493294E742F00E28A2D /* Appabetical-Bridging-Header.h */,
 				CE3C44AC294E74F700E28A2D /* Assets.xcassets */,
@@ -280,11 +303,14 @@
 			files = (
 				CE1C572E29508E4B008C992A /* Constants.swift in Sources */,
 				CE3C44A8294E742F00E28A2D /* IconStateItemHelper.swift in Sources */,
+				2522F0D82984D54D00B1CC2F /* vm_unaligned_copy_switch_race.c in Sources */,
 				CE3C44A1294E742F00E28A2D /* ContentView.swift in Sources */,
 				CE3C44A4294E742F00E28A2D /* Respring.swift in Sources */,
 				CE3C449D294E742F00E28A2D /* AppabeticalApp.swift in Sources */,
 				CE3C449E294E742F00E28A2D /* UIImage+UIImageAverageColorAddition.m in Sources */,
 				CE3C44A3294E742F00E28A2D /* Color++.swift in Sources */,
+				2522F0D62984D54D00B1CC2F /* helpers.m in Sources */,
+				2522F0D72984D54D00B1CC2F /* grant_full_disk_access.m in Sources */,
 				CE3C44BC294FA4C100E28A2D /* RemoteLog.swift in Sources */,
 				CE3C449B294E742F00E28A2D /* MultiSelectPickerView.swift in Sources */,
 				CE3C44A5294E742F00E28A2D /* Alert++.swift in Sources */,
@@ -427,20 +453,24 @@
 				DEVELOPMENT_TEAM = 92S6JX27W2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSAppleMusicUsageDescription = "Tap \"Allow\" for Appabetical to work.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.avangelista.Appabetical;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Appabetical/Appabetical-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -461,20 +491,24 @@
 				DEVELOPMENT_TEAM = 92S6JX27W2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSAppleMusicUsageDescription = "Tap \"Allow\" for Appabetical to work.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.avangelista.Appabetical;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Appabetical/Appabetical-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;

@@ -18,14 +18,53 @@ class IconStateItemHelper {
         idToColor = [:]
         
         let apps = LSApplicationWorkspace.default().allApplications()
-        for app in apps {
-            // Get name
-            let name = app.localizedName()
-            idToName[app.applicationIdentifier()] = name
-            
-            // Get bundle
-            let bundleUrl = app.bundleURL()
-            idToBundle[app.applicationIdentifier()] = bundleUrl
+        if apps.isEmpty {
+            // Private api didn't work, time to go old fashioned
+            do {
+                var dotAppDirs: [URL] = []
+                let systemAppsDir = try fm.contentsOfDirectory(at: systemApplicationsUrl, includingPropertiesForKeys: nil)
+                dotAppDirs += systemAppsDir
+                let userAppsDir = try fm.contentsOfDirectory(at: userApplicationsUrl, includingPropertiesForKeys: nil)
+                for userAppFolder in userAppsDir {
+                    let appBundleContents = try fm.contentsOfDirectory(at: userAppFolder, includingPropertiesForKeys: nil)
+                    if let dotApp = appBundleContents.first(where: { $0.absoluteString.hasSuffix(".app/") }) {
+                        dotAppDirs.append(dotApp)
+                    }
+                }
+                
+                for bundleUrl in dotAppDirs {
+                    let infoPlistUrl = bundleUrl.appendingPathComponent("Info.plist")
+                    if !fm.fileExists(atPath: infoPlistUrl.path) {
+                        // some system apps don't have it, just ignore it and move on.
+                        continue
+                    }
+                    
+                    guard let infoPlist = NSDictionary(contentsOf: infoPlistUrl) as? [String:AnyObject] else { throw "Error opening info.plist for \(bundleUrl.absoluteString)" }
+                    guard let CFBundleIdentifier = infoPlist["CFBundleIdentifier"] as? String else { throw "No bundle ID for \(bundleUrl.absoluteString)" }
+                    idToBundle[CFBundleIdentifier] = bundleUrl
+                    if infoPlist.keys.contains("CFBundleDisplayName") {
+                        guard let CFBundleDisplayName = infoPlist["CFBundleDisplayName"] as? String else { throw "Error reading display name for \(bundleUrl.absoluteString)" }
+                        idToName[CFBundleIdentifier] = CFBundleDisplayName
+                    } else if infoPlist.keys.contains("CFBundleName") {
+                        guard let CFBundleName = infoPlist["CFBundleName"] as? String else { throw "Error reading name for \(bundleUrl.absoluteString)" }
+                        idToName[CFBundleIdentifier] = CFBundleName
+                    } else {
+                        idToName[CFBundleIdentifier] = CFBundleIdentifier
+                    }
+                }
+            } catch {
+                UIApplication.shared.alert(body: "Error reading app information - \(error.localizedDescription)")
+            }
+        } else {
+            for app in apps {
+                // Get name
+                let name = app.localizedName()
+                idToName[app.applicationIdentifier()] = name
+                
+                // Get bundle
+                let bundleUrl = app.bundleURL()
+                idToBundle[app.applicationIdentifier()] = bundleUrl
+            }
         }
     }
 

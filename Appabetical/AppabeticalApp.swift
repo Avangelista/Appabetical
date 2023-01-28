@@ -26,6 +26,7 @@ struct AppabeticalApp: App {
                 if isiPad() {
                     UIApplication.shared.alert(title: "Warning", body: "Appabetical does not support iPad yet! Please do not use the app as there may be unexpected side effects.")
                 }
+                checkAndEscape()
             }
 //            .onAppear {
 //                UsageTrackingWrapper.shared.getAppUsages(completion: { usages, error  in
@@ -44,6 +45,27 @@ struct AppabeticalApp: App {
             return identifier + String(UnicodeScalar(UInt8(value)))
         }
         return identifier.contains("iPad")
+    }
+    
+    func checkAndEscape() {
+#if targetEnvironment(simulator)
+#else
+        if #available(iOS 16.2, *) {
+            UIApplication.shared.alert(title: "Not Supported", body: "This version of iOS is not supported.")
+        } else {
+            do {
+                // TrollStore method
+                try FileManager.default.contentsOfDirectory(at: URL(fileURLWithPath: "/var/mobile"), includingPropertiesForKeys: nil)
+            } catch {
+                // MDC method
+                grant_full_disk_access() { error in
+                    if error {
+                        UIApplication.shared.alert(title: "Access Error", body: "Error: \(String(describing: error?.localizedDescription))\nPlease close the app and retry.")
+                    }
+                }
+            }
+        }
+#endif
     }
     
     // Credit to SourceLocation

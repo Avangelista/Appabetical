@@ -21,3 +21,5 @@ let savedLayoutUrl = URL(fileURLWithPath: iconStatePath + ".saved")
 let webClipFolderUrl = URL(fileURLWithPath: "/var/mobile/Library/WebClips/")
 let version = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String
 let iconsOnAPage = 24 // iPads are either 20 or 30 I believe... no support yet
+let systemApplicationsUrl = URL(fileURLWithPath: "/Applications", isDirectory: true)
+let userApplicationsUrl = URL(fileURLWithPath: "/var/containers/Bundle/Application", isDirectory: true)
