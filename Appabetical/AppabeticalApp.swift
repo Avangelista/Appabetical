@@ -77,6 +77,7 @@ struct AppabeticalApp: App {
             grant_full_disk_access() { error in
                 if (error != nil) {
                     UIApplication.shared.alert(body: "\(String(describing: error?.localizedDescription))\nPlease close the app and retry.")
+                    return
                 }
             }
         }
