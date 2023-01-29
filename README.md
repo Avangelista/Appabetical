@@ -5,16 +5,21 @@
 
 
 ## Features
-- Works on any iPhone running iOS 14.0 - 16.1.2^
+- Works on any iPhone running iOS 14.0 - 16.1.2
 - Sort apps A-Z, Z-A, or by color
 - Supports sorting for all types of icons, even ones themed with TrollTools
 - Choose only the pages you want to sort
 - Sort pages independently or all together
 - Sort folders separately or mixed in with apps
 - Ability to back up a home screen layout, and quickly undo an accidental sort
-- Install with TrollStore, AltStore, etc.
 
-^On iOS 14.*, install the app with [TrollStore](https://github.com/opa334/TrollStore). iOS 15.7.2 and 15.7.3 are not supported.
+## Installation
+- iOS 14.*: Install the app with [TrollStore](https://github.com/opa334/TrollStore)
+- iOS 15.0 - 15.4.1: Install the app with [TrollStore](https://github.com/opa334/TrollStore) (recommended), [AltStore](https://altstore.io/), or [Sideloadly](https://sideloadly.io/)
+- iOS 15.5 - 16.1.2^: Install the app with [AltStore](https://altstore.io/) or [Sideloadly](https://sideloadly.io/)
+- iOS 16.2+: Not supported, and never will be
+
+^Excludes iOS 15.7.2 & 15.7.3
 
 ## About
 
