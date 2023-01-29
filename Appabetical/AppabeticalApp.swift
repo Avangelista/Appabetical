@@ -37,31 +37,46 @@ struct AppabeticalApp: App {
     }
     
     func isiPad() -> Bool {
-        var systemInfo = utsname()
-        uname(&systemInfo)
-        let machineMirror = Mirror(reflecting: systemInfo.machine)
-        let identifier = machineMirror.children.reduce("") { identifier, element in
-            guard let value = element.value as? Int8, value != 0 else { return identifier }
-            return identifier + String(UnicodeScalar(UInt8(value)))
-        }
-        return identifier.contains("iPad")
+        return UIDevice.current.userInterfaceIdiom == .pad
     }
     
     func checkAndEscape() {
 #if targetEnvironment(simulator)
 #else
+        var supported = false
+        var needsTrollStore = false
         if #available(iOS 16.2, *) {
-            UIApplication.shared.alert(title: "Not Supported", body: "This version of iOS is not supported.")
-        } else {
-            do {
-                // TrollStore method
-                try FileManager.default.contentsOfDirectory(at: URL(fileURLWithPath: "/var/mobile"), includingPropertiesForKeys: nil)
-            } catch {
-                // MDC method
-                grant_full_disk_access() { error in
-                    if (error != nil) {
-                        UIApplication.shared.alert(title: "Access Error", body: "Error: \(String(describing: error?.localizedDescription))\nPlease close the app and retry.")
-                    }
+            supported = false
+        } else if #available(iOS 16.0, *) {
+            supported = true
+            needsTrollStore = false
+        } else if #available(iOS 15.7.2, *) {
+            supported = false
+        } else if #available(iOS 15.0, *) {
+            supported = true
+            needsTrollStore = false
+        } else if #available(iOS 14.0, *) {
+            supported = true
+            needsTrollStore = true
+        }
+        
+        if !supported {
+            UIApplication.shared.alert(title: "Not Supported", body: "This version of iOS is not supported. Please close the app.")
+            return
+        }
+            
+        do {
+            // Check if application is entitled
+            try FileManager.default.contentsOfDirectory(at: URL(fileURLWithPath: "/var/mobile"), includingPropertiesForKeys: nil)
+        } catch {
+            if needsTrollStore {
+                UIApplication.shared.alert(title: "Use TrollStore", body: "You must install this app with TrollStore for it to work with this version of iOS. Please close the app.")
+                return
+            }
+            // Use MacDirtyCOW to gain r/w
+            grant_full_disk_access() { error in
+                if (error != nil) {
+                    UIApplication.shared.alert(body: "\(String(describing: error?.localizedDescription))\nPlease close the app and retry.")
                 }
             }
         }
