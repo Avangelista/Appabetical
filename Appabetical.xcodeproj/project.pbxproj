@@ -11,6 +11,7 @@
 		2522F0D62984D54D00B1CC2F /* helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 2522F0D22984D54D00B1CC2F /* helpers.m */; };
 		2522F0D72984D54D00B1CC2F /* grant_full_disk_access.m in Sources */ = {isa = PBXBuildFile; fileRef = 2522F0D32984D54D00B1CC2F /* grant_full_disk_access.m */; };
 		2522F0D82984D54D00B1CC2F /* vm_unaligned_copy_switch_race.c in Sources */ = {isa = PBXBuildFile; fileRef = 2522F0D42984D54D00B1CC2F /* vm_unaligned_copy_switch_race.c */; };
+		25378CDE29873FA70008553C /* respring.m in Sources */ = {isa = PBXBuildFile; fileRef = 25378CDD29873FA70008553C /* respring.m */; };
 		25787CB629471C82002BA871 /* AssetCatalogWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 25787CB529471C82002BA871 /* AssetCatalogWrapper */; };
 		CE1C572E29508E4B008C992A /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1C572D29508E4B008C992A /* Constants.swift */; };
 		CE3C4497294E742F00E28A2D /* BackupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3C4481294E742D00E28A2D /* BackupManager.swift */; };
@@ -21,7 +22,6 @@
 		CE3C449E294E742F00E28A2D /* UIImage+UIImageAverageColorAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = CE3C4488294E742E00E28A2D /* UIImage+UIImageAverageColorAddition.m */; };
 		CE3C44A1294E742F00E28A2D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3C448B294E742E00E28A2D /* ContentView.swift */; };
 		CE3C44A3294E742F00E28A2D /* Color++.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3C448E294E742E00E28A2D /* Color++.swift */; };
-		CE3C44A4294E742F00E28A2D /* Respring.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3C448F294E742E00E28A2D /* Respring.swift */; };
 		CE3C44A5294E742F00E28A2D /* Alert++.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3C4490294E742E00E28A2D /* Alert++.swift */; };
 		CE3C44A6294E742F00E28A2D /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3C4491294E742E00E28A2D /* String.swift */; };
 		CE3C44A8294E742F00E28A2D /* IconStateItemHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3C4494294E742F00E28A2D /* IconStateItemHelper.swift */; };
@@ -42,6 +42,8 @@
 		2522F0D32984D54D00B1CC2F /* grant_full_disk_access.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = grant_full_disk_access.m; sourceTree = "<group>"; };
 		2522F0D42984D54D00B1CC2F /* vm_unaligned_copy_switch_race.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vm_unaligned_copy_switch_race.c; sourceTree = "<group>"; };
 		2522F0D52984D54D00B1CC2F /* vm_unaligned_copy_switch_race.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vm_unaligned_copy_switch_race.h; sourceTree = "<group>"; };
+		25378CDC29873FA70008553C /* respring.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = respring.h; sourceTree = "<group>"; };
+		25378CDD29873FA70008553C /* respring.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = respring.m; sourceTree = "<group>"; };
 		25A3C7BD293D66430061A435 /* Appabetical.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Appabetical.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE1C572D29508E4B008C992A /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		CE3C447F294E742D00E28A2D /* UIImage+UIImageAverageColorAddition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+UIImageAverageColorAddition.h"; sourceTree = "<group>"; };
@@ -53,7 +55,6 @@
 		CE3C4488294E742E00E28A2D /* UIImage+UIImageAverageColorAddition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+UIImageAverageColorAddition.m"; sourceTree = "<group>"; };
 		CE3C448B294E742E00E28A2D /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		CE3C448E294E742E00E28A2D /* Color++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Color++.swift"; sourceTree = "<group>"; };
-		CE3C448F294E742E00E28A2D /* Respring.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Respring.swift; sourceTree = "<group>"; };
 		CE3C4490294E742E00E28A2D /* Alert++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Alert++.swift"; sourceTree = "<group>"; };
 		CE3C4491294E742E00E28A2D /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		CE3C4493294E742F00E28A2D /* Appabetical-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Appabetical-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -97,6 +98,8 @@
 				2522F0D22984D54D00B1CC2F /* helpers.m */,
 				2522F0D42984D54D00B1CC2F /* vm_unaligned_copy_switch_race.c */,
 				2522F0D52984D54D00B1CC2F /* vm_unaligned_copy_switch_race.h */,
+				25378CDC29873FA70008553C /* respring.h */,
+				25378CDD29873FA70008553C /* respring.m */,
 			);
 			path = Exploits;
 			sourceTree = "<group>";
@@ -158,7 +161,6 @@
 			isa = PBXGroup;
 			children = (
 				CE3C448E294E742E00E28A2D /* Color++.swift */,
-				CE3C448F294E742E00E28A2D /* Respring.swift */,
 				CE3C4490294E742E00E28A2D /* Alert++.swift */,
 				CE3C4491294E742E00E28A2D /* String.swift */,
 			);
@@ -305,11 +307,11 @@
 				CE3C44A8294E742F00E28A2D /* IconStateItemHelper.swift in Sources */,
 				2522F0D82984D54D00B1CC2F /* vm_unaligned_copy_switch_race.c in Sources */,
 				CE3C44A1294E742F00E28A2D /* ContentView.swift in Sources */,
-				CE3C44A4294E742F00E28A2D /* Respring.swift in Sources */,
 				CE3C449D294E742F00E28A2D /* AppabeticalApp.swift in Sources */,
 				CE3C449E294E742F00E28A2D /* UIImage+UIImageAverageColorAddition.m in Sources */,
 				CE3C44A3294E742F00E28A2D /* Color++.swift in Sources */,
 				2522F0D62984D54D00B1CC2F /* helpers.m in Sources */,
+				25378CDE29873FA70008553C /* respring.m in Sources */,
 				2522F0D72984D54D00B1CC2F /* grant_full_disk_access.m in Sources */,
 				CE3C44BC294FA4C100E28A2D /* RemoteLog.swift in Sources */,
 				CE3C449B294E742F00E28A2D /* MultiSelectPickerView.swift in Sources */,
@@ -376,7 +378,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -431,7 +433,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -465,7 +467,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.avangelista.Appabetical;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -503,7 +505,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.avangelista.Appabetical;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

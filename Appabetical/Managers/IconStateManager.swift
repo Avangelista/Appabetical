@@ -104,24 +104,13 @@ public class IconStateManager {
         do {
             if try validateIconState(old: plistUrl, new: plistUrlNew) {
                 let _ = try fm.replaceItemAt(plistUrl, withItemAt: plistUrlNew)
-                UIDevice.current.respring()
+                respringFrontboard()
             }
         } catch {
             throw "New IconState appears to be invalid. Sorting has been aborted, and no system files have been edited. Specific error: \(error.localizedDescription). Please screenshot and report."
         }
     }
     
-    static public func arePagesNeighbouring(pages: [Int]) -> Bool {
-        if pages.isEmpty {
-            return true
-        }
-        for i in 1..<pages.count {
-            if pages[i] - pages[i - 1] > 1 {
-                return false
-            }
-        }
-        return true
-    }
     /// Get the pages on the user's home screen, as well as any hidden pages
     public static func getPages() -> (Int, [Int]) {
         guard let plist = NSDictionary(contentsOf: plistUrl) as? [String:Any] else { return (0, []) }

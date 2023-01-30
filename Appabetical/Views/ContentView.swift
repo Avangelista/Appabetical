@@ -155,7 +155,7 @@ struct ContentView: View {
         UIApplication.shared.confirmAlert(title: "Confirm Undo", body: "This layout was saved on \(BackupManager.getTimeSaved(url: plistUrlBkp) ?? "(unknown date)"). Be mindful if you've added/removed any apps, widgets or folders since then as they may appear incorrectly. Would you like to continue?", onOK: {
             do {
                 try BackupManager.restoreBackup()
-                UIDevice.current.respring()
+                respringFrontboard()
             } catch {  UIApplication.shared.alert(body: error.localizedDescription) }
         })
     }
@@ -164,7 +164,7 @@ struct ContentView: View {
         UIApplication.shared.confirmAlert(title: "Confirm Restore", body: "This layout was saved on \(BackupManager.getTimeSaved(url: savedLayoutUrl) ?? "(unknown date)"). Be mindful if you've added/removed any apps, widgets or folders since then as they may appear incorrectly. Would you like to continue?", onOK: {
             do {
                 try BackupManager.restoreLayout()
-                UIDevice.current.respring()
+                respringFrontboard()
             } catch {  UIApplication.shared.alert(body: error.localizedDescription) }
         })
     }

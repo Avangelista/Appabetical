@@ -28,9 +28,6 @@ struct MultiSelectPickerView: View {
                                 self.selectedItems.append(item)
                             }
                             self.selectedItems.sort()
-                            if !IconStateManager.arePagesNeighbouring(pages: self.selectedItems) {
-                                self.pageOp = IconStateManager.PageSortingOption.individually // bug here
-                            }
                         }) {
                             HStack {
                                 Text("Page \(String(item + 1))\(hiddenPages.contains(item) ? " (hidden)" : "")")
